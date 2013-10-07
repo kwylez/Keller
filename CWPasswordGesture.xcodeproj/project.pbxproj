@@ -36,6 +36,12 @@
 		019575441802EA68004D8277 /* KellerLongPressGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575381802EA68004D8277 /* KellerLongPressGesture.m */; };
 		0195754A1802F0C4004D8277 /* KellerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575451802EB62004D8277 /* KellerConstants.m */; };
 		0195754B1802F0D1004D8277 /* KellerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575451802EB62004D8277 /* KellerConstants.m */; };
+		019575531802F85F004D8277 /* KellerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195754E1802F85F004D8277 /* KellerViewController.m */; };
+		019575541802F85F004D8277 /* KellerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195754E1802F85F004D8277 /* KellerViewController.m */; };
+		019575551802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575501802F85F004D8277 /* KellerSetPasswordViewController.m */; };
+		019575561802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575501802F85F004D8277 /* KellerSetPasswordViewController.m */; };
+		019575571802F85F004D8277 /* KellerPasswordReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */; };
+		019575581802F85F004D8277 /* KellerPasswordReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +90,12 @@
 		019575451802EB62004D8277 /* KellerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerConstants.m; sourceTree = "<group>"; };
 		019575461802ECB5004D8277 /* KellerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerConstants.h; sourceTree = "<group>"; };
 		019575481802EF87004D8277 /* Kellar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kellar.h; sourceTree = "<group>"; };
+		0195754D1802F85F004D8277 /* KellerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerViewController.h; sourceTree = "<group>"; };
+		0195754E1802F85F004D8277 /* KellerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerViewController.m; sourceTree = "<group>"; };
+		0195754F1802F85F004D8277 /* KellerSetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerSetPasswordViewController.h; sourceTree = "<group>"; };
+		019575501802F85F004D8277 /* KellerSetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerSetPasswordViewController.m; sourceTree = "<group>"; };
+		019575511802F85F004D8277 /* KellerPasswordReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPasswordReminderViewController.h; sourceTree = "<group>"; };
+		019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPasswordReminderViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +198,7 @@
 		019575261802E9DA004D8277 /* Keller */ = {
 			isa = PBXGroup;
 			children = (
+				0195754C1802F846004D8277 /* Controllers */,
 				019575481802EF87004D8277 /* Kellar.h */,
 				019575471802EF75004D8277 /* Constants */,
 				0195752B1802EA4B004D8277 /* Managers */,
@@ -229,6 +242,19 @@
 				019575451802EB62004D8277 /* KellerConstants.m */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		0195754C1802F846004D8277 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0195754D1802F85F004D8277 /* KellerViewController.h */,
+				0195754E1802F85F004D8277 /* KellerViewController.m */,
+				0195754F1802F85F004D8277 /* KellerSetPasswordViewController.h */,
+				019575501802F85F004D8277 /* KellerSetPasswordViewController.m */,
+				019575511802F85F004D8277 /* KellerPasswordReminderViewController.h */,
+				019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,12 +354,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				019575571802F85F004D8277 /* KellerPasswordReminderViewController.m in Sources */,
 				0195754A1802F0C4004D8277 /* KellerConstants.m in Sources */,
+				019575551802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */,
 				019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */,
 				0195753B1802EA68004D8277 /* KellerTapGesture.m in Sources */,
 				0195753F1802EA68004D8277 /* KellerPinchGesture.m in Sources */,
 				019575431802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
 				019574FB1802E383004D8277 /* main.m in Sources */,
+				019575531802F85F004D8277 /* KellerViewController.m in Sources */,
 				019575391802EA68004D8277 /* KellerPanGesture.m in Sources */,
 				019575411802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 				019575291802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
@@ -348,8 +377,11 @@
 			files = (
 				0195754B1802F0D1004D8277 /* KellerConstants.m in Sources */,
 				0195752A1802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
+				019575581802F85F004D8277 /* KellerPasswordReminderViewController.m in Sources */,
 				019575441802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
 				0195751D1802E383004D8277 /* CWPasswordGestureTests.m in Sources */,
+				019575561802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */,
+				019575541802F85F004D8277 /* KellerViewController.m in Sources */,
 				0195753A1802EA68004D8277 /* KellerPanGesture.m in Sources */,
 				0195753C1802EA68004D8277 /* KellerTapGesture.m in Sources */,
 				019575401802EA68004D8277 /* KellerPinchGesture.m in Sources */,
