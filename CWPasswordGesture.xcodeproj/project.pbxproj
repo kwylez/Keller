@@ -1,0 +1,490 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		019574EF1802E383004D8277 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574EE1802E383004D8277 /* Foundation.framework */; };
+		019574F11802E383004D8277 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574F01802E383004D8277 /* CoreGraphics.framework */; };
+		019574F31802E383004D8277 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574F21802E383004D8277 /* UIKit.framework */; };
+		019574F91802E383004D8277 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 019574F71802E383004D8277 /* InfoPlist.strings */; };
+		019574FB1802E383004D8277 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 019574FA1802E383004D8277 /* main.m */; };
+		019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 019574FE1802E383004D8277 /* CWAppDelegate.m */; };
+		019575021802E383004D8277 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 019575001802E383004D8277 /* Main_iPhone.storyboard */; };
+		019575051802E383004D8277 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 019575031802E383004D8277 /* Main_iPad.storyboard */; };
+		019575081802E383004D8277 /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575071802E383004D8277 /* CWViewController.m */; };
+		0195750A1802E383004D8277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 019575091802E383004D8277 /* Images.xcassets */; };
+		019575111802E383004D8277 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019575101802E383004D8277 /* XCTest.framework */; };
+		019575121802E383004D8277 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574EE1802E383004D8277 /* Foundation.framework */; };
+		019575131802E383004D8277 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574F21802E383004D8277 /* UIKit.framework */; };
+		0195751B1802E383004D8277 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 019575191802E383004D8277 /* InfoPlist.strings */; };
+		0195751D1802E383004D8277 /* CWPasswordGestureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195751C1802E383004D8277 /* CWPasswordGestureTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		019575141802E383004D8277 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 019574E31802E383004D8277 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 019574EA1802E383004D8277;
+			remoteInfo = CWPasswordGesture;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		019574EB1802E383004D8277 /* CWPasswordGesture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWPasswordGesture.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		019574EE1802E383004D8277 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		019574F01802E383004D8277 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		019574F21802E383004D8277 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		019574F61802E383004D8277 /* CWPasswordGesture-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CWPasswordGesture-Info.plist"; sourceTree = "<group>"; };
+		019574F81802E383004D8277 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		019574FA1802E383004D8277 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		019574FC1802E383004D8277 /* CWPasswordGesture-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CWPasswordGesture-Prefix.pch"; sourceTree = "<group>"; };
+		019574FD1802E383004D8277 /* CWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWAppDelegate.h; sourceTree = "<group>"; };
+		019574FE1802E383004D8277 /* CWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWAppDelegate.m; sourceTree = "<group>"; };
+		019575011802E383004D8277 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		019575041802E383004D8277 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		019575061802E383004D8277 /* CWViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
+		019575071802E383004D8277 /* CWViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWViewController.m; sourceTree = "<group>"; };
+		019575091802E383004D8277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0195750F1802E383004D8277 /* CWPasswordGestureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CWPasswordGestureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		019575101802E383004D8277 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		019575181802E383004D8277 /* CWPasswordGestureTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CWPasswordGestureTests-Info.plist"; sourceTree = "<group>"; };
+		0195751A1802E383004D8277 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0195751C1802E383004D8277 /* CWPasswordGestureTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWPasswordGestureTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		019574E81802E383004D8277 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019574F11802E383004D8277 /* CoreGraphics.framework in Frameworks */,
+				019574F31802E383004D8277 /* UIKit.framework in Frameworks */,
+				019574EF1802E383004D8277 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0195750C1802E383004D8277 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019575111802E383004D8277 /* XCTest.framework in Frameworks */,
+				019575131802E383004D8277 /* UIKit.framework in Frameworks */,
+				019575121802E383004D8277 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		019574E21802E383004D8277 = {
+			isa = PBXGroup;
+			children = (
+				019574F41802E383004D8277 /* CWPasswordGesture */,
+				019575161802E383004D8277 /* CWPasswordGestureTests */,
+				019574ED1802E383004D8277 /* Frameworks */,
+				019574EC1802E383004D8277 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		019574EC1802E383004D8277 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				019574EB1802E383004D8277 /* CWPasswordGesture.app */,
+				0195750F1802E383004D8277 /* CWPasswordGestureTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		019574ED1802E383004D8277 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				019574EE1802E383004D8277 /* Foundation.framework */,
+				019574F01802E383004D8277 /* CoreGraphics.framework */,
+				019574F21802E383004D8277 /* UIKit.framework */,
+				019575101802E383004D8277 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		019574F41802E383004D8277 /* CWPasswordGesture */ = {
+			isa = PBXGroup;
+			children = (
+				019574FD1802E383004D8277 /* CWAppDelegate.h */,
+				019574FE1802E383004D8277 /* CWAppDelegate.m */,
+				019575001802E383004D8277 /* Main_iPhone.storyboard */,
+				019575031802E383004D8277 /* Main_iPad.storyboard */,
+				019575061802E383004D8277 /* CWViewController.h */,
+				019575071802E383004D8277 /* CWViewController.m */,
+				019575091802E383004D8277 /* Images.xcassets */,
+				019574F51802E383004D8277 /* Supporting Files */,
+			);
+			path = CWPasswordGesture;
+			sourceTree = "<group>";
+		};
+		019574F51802E383004D8277 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				019574F61802E383004D8277 /* CWPasswordGesture-Info.plist */,
+				019574F71802E383004D8277 /* InfoPlist.strings */,
+				019574FA1802E383004D8277 /* main.m */,
+				019574FC1802E383004D8277 /* CWPasswordGesture-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		019575161802E383004D8277 /* CWPasswordGestureTests */ = {
+			isa = PBXGroup;
+			children = (
+				0195751C1802E383004D8277 /* CWPasswordGestureTests.m */,
+				019575171802E383004D8277 /* Supporting Files */,
+			);
+			path = CWPasswordGestureTests;
+			sourceTree = "<group>";
+		};
+		019575171802E383004D8277 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				019575181802E383004D8277 /* CWPasswordGestureTests-Info.plist */,
+				019575191802E383004D8277 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		019574EA1802E383004D8277 /* CWPasswordGesture */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 019575201802E383004D8277 /* Build configuration list for PBXNativeTarget "CWPasswordGesture" */;
+			buildPhases = (
+				019574E71802E383004D8277 /* Sources */,
+				019574E81802E383004D8277 /* Frameworks */,
+				019574E91802E383004D8277 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CWPasswordGesture;
+			productName = CWPasswordGesture;
+			productReference = 019574EB1802E383004D8277 /* CWPasswordGesture.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0195750E1802E383004D8277 /* CWPasswordGestureTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 019575231802E383004D8277 /* Build configuration list for PBXNativeTarget "CWPasswordGestureTests" */;
+			buildPhases = (
+				0195750B1802E383004D8277 /* Sources */,
+				0195750C1802E383004D8277 /* Frameworks */,
+				0195750D1802E383004D8277 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				019575151802E383004D8277 /* PBXTargetDependency */,
+			);
+			name = CWPasswordGestureTests;
+			productName = CWPasswordGestureTests;
+			productReference = 0195750F1802E383004D8277 /* CWPasswordGestureTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		019574E31802E383004D8277 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CW;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Cory D. Wiles";
+				TargetAttributes = {
+					0195750E1802E383004D8277 = {
+						TestTargetID = 019574EA1802E383004D8277;
+					};
+				};
+			};
+			buildConfigurationList = 019574E61802E383004D8277 /* Build configuration list for PBXProject "CWPasswordGesture" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 019574E21802E383004D8277;
+			productRefGroup = 019574EC1802E383004D8277 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				019574EA1802E383004D8277 /* CWPasswordGesture */,
+				0195750E1802E383004D8277 /* CWPasswordGestureTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		019574E91802E383004D8277 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019575051802E383004D8277 /* Main_iPad.storyboard in Resources */,
+				0195750A1802E383004D8277 /* Images.xcassets in Resources */,
+				019575021802E383004D8277 /* Main_iPhone.storyboard in Resources */,
+				019574F91802E383004D8277 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0195750D1802E383004D8277 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0195751B1802E383004D8277 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		019574E71802E383004D8277 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */,
+				019574FB1802E383004D8277 /* main.m in Sources */,
+				019575081802E383004D8277 /* CWViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0195750B1802E383004D8277 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0195751D1802E383004D8277 /* CWPasswordGestureTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		019575151802E383004D8277 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 019574EA1802E383004D8277 /* CWPasswordGesture */;
+			targetProxy = 019575141802E383004D8277 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		019574F71802E383004D8277 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				019574F81802E383004D8277 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		019575001802E383004D8277 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				019575011802E383004D8277 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		019575031802E383004D8277 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				019575041802E383004D8277 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		019575191802E383004D8277 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0195751A1802E383004D8277 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0195751E1802E383004D8277 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0195751F1802E383004D8277 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		019575211802E383004D8277 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CWPasswordGesture/CWPasswordGesture-Prefix.pch";
+				INFOPLIST_FILE = "CWPasswordGesture/CWPasswordGesture-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		019575221802E383004D8277 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CWPasswordGesture/CWPasswordGesture-Prefix.pch";
+				INFOPLIST_FILE = "CWPasswordGesture/CWPasswordGesture-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		019575241802E383004D8277 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CWPasswordGesture.app/CWPasswordGesture";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CWPasswordGesture/CWPasswordGesture-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "CWPasswordGestureTests/CWPasswordGestureTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		019575251802E383004D8277 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CWPasswordGesture.app/CWPasswordGesture";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CWPasswordGesture/CWPasswordGesture-Prefix.pch";
+				INFOPLIST_FILE = "CWPasswordGestureTests/CWPasswordGestureTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		019574E61802E383004D8277 /* Build configuration list for PBXProject "CWPasswordGesture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0195751E1802E383004D8277 /* Debug */,
+				0195751F1802E383004D8277 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		019575201802E383004D8277 /* Build configuration list for PBXNativeTarget "CWPasswordGesture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				019575211802E383004D8277 /* Debug */,
+				019575221802E383004D8277 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		019575231802E383004D8277 /* Build configuration list for PBXNativeTarget "CWPasswordGestureTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				019575241802E383004D8277 /* Debug */,
+				019575251802E383004D8277 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 019574E31802E383004D8277 /* Project object */;
+}
