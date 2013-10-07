@@ -13,8 +13,6 @@
 		019574F91802E383004D8277 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 019574F71802E383004D8277 /* InfoPlist.strings */; };
 		019574FB1802E383004D8277 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 019574FA1802E383004D8277 /* main.m */; };
 		019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 019574FE1802E383004D8277 /* CWAppDelegate.m */; };
-		019575021802E383004D8277 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 019575001802E383004D8277 /* Main_iPhone.storyboard */; };
-		019575051802E383004D8277 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 019575031802E383004D8277 /* Main_iPad.storyboard */; };
 		019575081802E383004D8277 /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575071802E383004D8277 /* CWViewController.m */; };
 		0195750A1802E383004D8277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 019575091802E383004D8277 /* Images.xcassets */; };
 		019575111802E383004D8277 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019575101802E383004D8277 /* XCTest.framework */; };
@@ -22,6 +20,22 @@
 		019575131802E383004D8277 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574F21802E383004D8277 /* UIKit.framework */; };
 		0195751B1802E383004D8277 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 019575191802E383004D8277 /* InfoPlist.strings */; };
 		0195751D1802E383004D8277 /* CWPasswordGestureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195751C1802E383004D8277 /* CWPasswordGestureTests.m */; };
+		019575291802EA1D004D8277 /* KellerPasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575281802EA1D004D8277 /* KellerPasswordManager.m */; };
+		0195752A1802EA1D004D8277 /* KellerPasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575281802EA1D004D8277 /* KellerPasswordManager.m */; };
+		019575391802EA68004D8277 /* KellerPanGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195752E1802EA68004D8277 /* KellerPanGesture.m */; };
+		0195753A1802EA68004D8277 /* KellerPanGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195752E1802EA68004D8277 /* KellerPanGesture.m */; };
+		0195753B1802EA68004D8277 /* KellerTapGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575301802EA68004D8277 /* KellerTapGesture.m */; };
+		0195753C1802EA68004D8277 /* KellerTapGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575301802EA68004D8277 /* KellerTapGesture.m */; };
+		0195753D1802EA68004D8277 /* KellerRotateGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575321802EA68004D8277 /* KellerRotateGesture.m */; };
+		0195753E1802EA68004D8277 /* KellerRotateGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575321802EA68004D8277 /* KellerRotateGesture.m */; };
+		0195753F1802EA68004D8277 /* KellerPinchGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575341802EA68004D8277 /* KellerPinchGesture.m */; };
+		019575401802EA68004D8277 /* KellerPinchGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575341802EA68004D8277 /* KellerPinchGesture.m */; };
+		019575411802EA68004D8277 /* KellerSwipeGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575361802EA68004D8277 /* KellerSwipeGesture.m */; };
+		019575421802EA68004D8277 /* KellerSwipeGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575361802EA68004D8277 /* KellerSwipeGesture.m */; };
+		019575431802EA68004D8277 /* KellerLongPressGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575381802EA68004D8277 /* KellerLongPressGesture.m */; };
+		019575441802EA68004D8277 /* KellerLongPressGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575381802EA68004D8277 /* KellerLongPressGesture.m */; };
+		0195754A1802F0C4004D8277 /* KellerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575451802EB62004D8277 /* KellerConstants.m */; };
+		0195754B1802F0D1004D8277 /* KellerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575451802EB62004D8277 /* KellerConstants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +59,6 @@
 		019574FC1802E383004D8277 /* CWPasswordGesture-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CWPasswordGesture-Prefix.pch"; sourceTree = "<group>"; };
 		019574FD1802E383004D8277 /* CWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWAppDelegate.h; sourceTree = "<group>"; };
 		019574FE1802E383004D8277 /* CWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWAppDelegate.m; sourceTree = "<group>"; };
-		019575011802E383004D8277 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		019575041802E383004D8277 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		019575061802E383004D8277 /* CWViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
 		019575071802E383004D8277 /* CWViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWViewController.m; sourceTree = "<group>"; };
 		019575091802E383004D8277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -55,6 +67,23 @@
 		019575181802E383004D8277 /* CWPasswordGestureTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CWPasswordGestureTests-Info.plist"; sourceTree = "<group>"; };
 		0195751A1802E383004D8277 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0195751C1802E383004D8277 /* CWPasswordGestureTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWPasswordGestureTests.m; sourceTree = "<group>"; };
+		019575271802EA1D004D8277 /* KellerPasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPasswordManager.h; sourceTree = "<group>"; };
+		019575281802EA1D004D8277 /* KellerPasswordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPasswordManager.m; sourceTree = "<group>"; };
+		0195752D1802EA68004D8277 /* KellerPanGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPanGesture.h; sourceTree = "<group>"; };
+		0195752E1802EA68004D8277 /* KellerPanGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPanGesture.m; sourceTree = "<group>"; };
+		0195752F1802EA68004D8277 /* KellerTapGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerTapGesture.h; sourceTree = "<group>"; };
+		019575301802EA68004D8277 /* KellerTapGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerTapGesture.m; sourceTree = "<group>"; };
+		019575311802EA68004D8277 /* KellerRotateGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerRotateGesture.h; sourceTree = "<group>"; };
+		019575321802EA68004D8277 /* KellerRotateGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerRotateGesture.m; sourceTree = "<group>"; };
+		019575331802EA68004D8277 /* KellerPinchGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPinchGesture.h; sourceTree = "<group>"; };
+		019575341802EA68004D8277 /* KellerPinchGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPinchGesture.m; sourceTree = "<group>"; };
+		019575351802EA68004D8277 /* KellerSwipeGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerSwipeGesture.h; sourceTree = "<group>"; };
+		019575361802EA68004D8277 /* KellerSwipeGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerSwipeGesture.m; sourceTree = "<group>"; };
+		019575371802EA68004D8277 /* KellerLongPressGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerLongPressGesture.h; sourceTree = "<group>"; };
+		019575381802EA68004D8277 /* KellerLongPressGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerLongPressGesture.m; sourceTree = "<group>"; };
+		019575451802EB62004D8277 /* KellerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerConstants.m; sourceTree = "<group>"; };
+		019575461802ECB5004D8277 /* KellerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerConstants.h; sourceTree = "<group>"; };
+		019575481802EF87004D8277 /* Kellar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kellar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,11 +143,10 @@
 		019574F41802E383004D8277 /* CWPasswordGesture */ = {
 			isa = PBXGroup;
 			children = (
+				019575261802E9DA004D8277 /* Keller */,
 				019574FD1802E383004D8277 /* CWAppDelegate.h */,
-				019574FE1802E383004D8277 /* CWAppDelegate.m */,
-				019575001802E383004D8277 /* Main_iPhone.storyboard */,
-				019575031802E383004D8277 /* Main_iPad.storyboard */,
 				019575061802E383004D8277 /* CWViewController.h */,
+				019574FE1802E383004D8277 /* CWAppDelegate.m */,
 				019575071802E383004D8277 /* CWViewController.m */,
 				019575091802E383004D8277 /* Images.xcassets */,
 				019574F51802E383004D8277 /* Supporting Files */,
@@ -153,6 +181,54 @@
 				019575191802E383004D8277 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		019575261802E9DA004D8277 /* Keller */ = {
+			isa = PBXGroup;
+			children = (
+				019575481802EF87004D8277 /* Kellar.h */,
+				019575471802EF75004D8277 /* Constants */,
+				0195752B1802EA4B004D8277 /* Managers */,
+				0195752C1802EA51004D8277 /* Models */,
+			);
+			name = Keller;
+			sourceTree = "<group>";
+		};
+		0195752B1802EA4B004D8277 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				019575271802EA1D004D8277 /* KellerPasswordManager.h */,
+				019575281802EA1D004D8277 /* KellerPasswordManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		0195752C1802EA51004D8277 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0195752D1802EA68004D8277 /* KellerPanGesture.h */,
+				0195752E1802EA68004D8277 /* KellerPanGesture.m */,
+				0195752F1802EA68004D8277 /* KellerTapGesture.h */,
+				019575301802EA68004D8277 /* KellerTapGesture.m */,
+				019575311802EA68004D8277 /* KellerRotateGesture.h */,
+				019575321802EA68004D8277 /* KellerRotateGesture.m */,
+				019575331802EA68004D8277 /* KellerPinchGesture.h */,
+				019575341802EA68004D8277 /* KellerPinchGesture.m */,
+				019575351802EA68004D8277 /* KellerSwipeGesture.h */,
+				019575361802EA68004D8277 /* KellerSwipeGesture.m */,
+				019575371802EA68004D8277 /* KellerLongPressGesture.h */,
+				019575381802EA68004D8277 /* KellerLongPressGesture.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		019575471802EF75004D8277 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				019575461802ECB5004D8277 /* KellerConstants.h */,
+				019575451802EB62004D8277 /* KellerConstants.m */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,9 +308,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				019575051802E383004D8277 /* Main_iPad.storyboard in Resources */,
 				0195750A1802E383004D8277 /* Images.xcassets in Resources */,
-				019575021802E383004D8277 /* Main_iPhone.storyboard in Resources */,
 				019574F91802E383004D8277 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,8 +328,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0195754A1802F0C4004D8277 /* KellerConstants.m in Sources */,
 				019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */,
+				0195753B1802EA68004D8277 /* KellerTapGesture.m in Sources */,
+				0195753F1802EA68004D8277 /* KellerPinchGesture.m in Sources */,
+				019575431802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
 				019574FB1802E383004D8277 /* main.m in Sources */,
+				019575391802EA68004D8277 /* KellerPanGesture.m in Sources */,
+				019575411802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
+				019575291802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
+				0195753D1802EA68004D8277 /* KellerRotateGesture.m in Sources */,
 				019575081802E383004D8277 /* CWViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,7 +346,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0195754B1802F0D1004D8277 /* KellerConstants.m in Sources */,
+				0195752A1802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
+				019575441802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
 				0195751D1802E383004D8277 /* CWPasswordGestureTests.m in Sources */,
+				0195753A1802EA68004D8277 /* KellerPanGesture.m in Sources */,
+				0195753C1802EA68004D8277 /* KellerTapGesture.m in Sources */,
+				019575401802EA68004D8277 /* KellerPinchGesture.m in Sources */,
+				0195753E1802EA68004D8277 /* KellerRotateGesture.m in Sources */,
+				019575421802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,22 +375,6 @@
 				019574F81802E383004D8277 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		019575001802E383004D8277 /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				019575011802E383004D8277 /* Base */,
-			);
-			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		019575031802E383004D8277 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				019575041802E383004D8277 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		019575191802E383004D8277 /* InfoPlist.strings */ = {
@@ -475,6 +549,7 @@
 				019575221802E383004D8277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		019575231802E383004D8277 /* Build configuration list for PBXNativeTarget "CWPasswordGestureTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +558,7 @@
 				019575251802E383004D8277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
