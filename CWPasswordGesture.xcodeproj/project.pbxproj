@@ -42,6 +42,11 @@
 		019575561802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575501802F85F004D8277 /* KellerSetPasswordViewController.m */; };
 		019575571802F85F004D8277 /* KellerPasswordReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */; };
 		019575581802F85F004D8277 /* KellerPasswordReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */; };
+		0195755A1802FE97004D8277 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019575591802FE97004D8277 /* AssetsLibrary.framework */; };
+		01957560180303FE004D8277 /* KellarPhotoViewerGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755D180303FE004D8277 /* KellarPhotoViewerGridCell.m */; };
+		01957561180303FE004D8277 /* KellarPhotoViewerGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755D180303FE004D8277 /* KellarPhotoViewerGridCell.m */; };
+		01957562180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */; };
+		01957563180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,11 @@
 		019575501802F85F004D8277 /* KellerSetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerSetPasswordViewController.m; sourceTree = "<group>"; };
 		019575511802F85F004D8277 /* KellerPasswordReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPasswordReminderViewController.h; sourceTree = "<group>"; };
 		019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPasswordReminderViewController.m; sourceTree = "<group>"; };
+		019575591802FE97004D8277 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		0195755C180303FE004D8277 /* KellarPhotoViewerGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellarPhotoViewerGridCell.h; sourceTree = "<group>"; };
+		0195755D180303FE004D8277 /* KellarPhotoViewerGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellarPhotoViewerGridCell.m; sourceTree = "<group>"; };
+		0195755E180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPhotoViewerGridFlowLayout.h; sourceTree = "<group>"; };
+		0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPhotoViewerGridFlowLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0195755A1802FE97004D8277 /* AssetsLibrary.framework in Frameworks */,
 				019574F11802E383004D8277 /* CoreGraphics.framework in Frameworks */,
 				019574F31802E383004D8277 /* UIKit.framework in Frameworks */,
 				019574EF1802E383004D8277 /* Foundation.framework in Frameworks */,
@@ -144,6 +155,7 @@
 		019574ED1802E383004D8277 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				019575591802FE97004D8277 /* AssetsLibrary.framework */,
 				019574EE1802E383004D8277 /* Foundation.framework */,
 				019574F01802E383004D8277 /* CoreGraphics.framework */,
 				019574F21802E383004D8277 /* UIKit.framework */,
@@ -155,12 +167,12 @@
 		019574F41802E383004D8277 /* CWPasswordGesture */ = {
 			isa = PBXGroup;
 			children = (
-				019575261802E9DA004D8277 /* Keller */,
 				019574FD1802E383004D8277 /* CWAppDelegate.h */,
-				019575061802E383004D8277 /* CWViewController.h */,
 				019574FE1802E383004D8277 /* CWAppDelegate.m */,
+				019575061802E383004D8277 /* CWViewController.h */,
 				019575071802E383004D8277 /* CWViewController.m */,
 				019575091802E383004D8277 /* Images.xcassets */,
+				019575261802E9DA004D8277 /* Keller */,
 				019574F51802E383004D8277 /* Supporting Files */,
 			);
 			path = CWPasswordGesture;
@@ -247,6 +259,7 @@
 		0195754C1802F846004D8277 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0195755B180303EF004D8277 /* Collection Views */,
 				0195754D1802F85F004D8277 /* KellerViewController.h */,
 				0195754E1802F85F004D8277 /* KellerViewController.m */,
 				0195754F1802F85F004D8277 /* KellerSetPasswordViewController.h */,
@@ -255,6 +268,17 @@
 				019575521802F85F004D8277 /* KellerPasswordReminderViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		0195755B180303EF004D8277 /* Collection Views */ = {
+			isa = PBXGroup;
+			children = (
+				0195755C180303FE004D8277 /* KellarPhotoViewerGridCell.h */,
+				0195755D180303FE004D8277 /* KellarPhotoViewerGridCell.m */,
+				0195755E180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.h */,
+				0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */,
+			);
+			name = "Collection Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -305,6 +329,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Cory D. Wiles";
 				TargetAttributes = {
+					019574EA1802E383004D8277 = {
+						DevelopmentTeam = XM4VAKDQL9;
+					};
 					0195750E1802E383004D8277 = {
 						TestTargetID = 019574EA1802E383004D8277;
 					};
@@ -359,10 +386,12 @@
 				019575551802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */,
 				019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */,
 				0195753B1802EA68004D8277 /* KellerTapGesture.m in Sources */,
+				01957560180303FE004D8277 /* KellarPhotoViewerGridCell.m in Sources */,
 				0195753F1802EA68004D8277 /* KellerPinchGesture.m in Sources */,
 				019575431802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
 				019574FB1802E383004D8277 /* main.m in Sources */,
 				019575531802F85F004D8277 /* KellerViewController.m in Sources */,
+				01957562180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */,
 				019575391802EA68004D8277 /* KellerPanGesture.m in Sources */,
 				019575411802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 				019575291802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
@@ -381,10 +410,12 @@
 				019575441802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
 				0195751D1802E383004D8277 /* CWPasswordGestureTests.m in Sources */,
 				019575561802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */,
+				01957563180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */,
 				019575541802F85F004D8277 /* KellerViewController.m in Sources */,
 				0195753A1802EA68004D8277 /* KellerPanGesture.m in Sources */,
 				0195753C1802EA68004D8277 /* KellerTapGesture.m in Sources */,
 				019575401802EA68004D8277 /* KellerPinchGesture.m in Sources */,
+				01957561180303FE004D8277 /* KellarPhotoViewerGridCell.m in Sources */,
 				0195753E1802EA68004D8277 /* KellerRotateGesture.m in Sources */,
 				019575421802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 			);
@@ -499,10 +530,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CWPasswordGesture/CWPasswordGesture-Prefix.pch";
 				INFOPLIST_FILE = "CWPasswordGesture/CWPasswordGesture-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -512,10 +546,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CWPasswordGesture/CWPasswordGesture-Prefix.pch";
 				INFOPLIST_FILE = "CWPasswordGesture/CWPasswordGesture-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

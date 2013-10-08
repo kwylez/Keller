@@ -6,90 +6,65 @@
 //  Copyright 2010 Wiles, LLC. All rights reserved.
 //
 
+#import <AssetsLibrary/AssetsLibrary.h>
+
 #import "KellerPasswordReminderViewController.h"
+#import "KellerPhotoViewerGridFlowLayout.h"
+#import "KellarPhotoViewerGridCell.h"
+
+typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
+
+@interface KellerPasswordReminderViewController()
+
+@property (nonatomic, strong) NSMutableArray *galleryImages;
+
+- (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block;
+- (ALAssetsLibrary *)defaultAssetsLibrary;
+
+@end
 
 @implementation KellerPasswordReminderViewController
 
-@synthesize tblView;
-@synthesize activityView;
-@synthesize imageAssets;
-
-- (void)dealloc {
-  [tblView release];
-  [activityView release];
-  [imageAssets release];
-  [super dealloc];
-}
-
-- (void)loadView {
+- (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
   
-  UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+  if (!layout) {
+    
+    KellerPhotoViewerGridFlowLayout *flowLayout = [[KellerPhotoViewerGridFlowLayout alloc] init];
+    
+    layout = flowLayout;
+  }
   
-	mainView.backgroundColor = [UIColor blackColor];
-	
-	self.view = mainView;
-	
-	[mainView release];
+  self = [super initWithCollectionViewLayout:layout];
   
-  self.tblView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
-
-  self.tblView.delegate   = self;
-  self.tblView.dataSource = self;
+  if (self) {
+    
+    self.clearsSelectionOnViewWillAppear = YES;
+    
+    _galleryImages = [NSMutableArray new];
+  }
   
-  [self.view addSubview:self.tblView];
-  
-  self.activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(20, 20, 40, 40)];
-
-  self.activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-  
-  [self.view addSubview:self.activityView];
+  return self;
 }
 
 - (void)viewDidLoad {
- 
-  NSLog(@"inside view did load");
-  
-  [self.activityView startAnimating];
-  
-  void (^assetEnumerator)(struct ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
-    NSLog(@"inside first block");
-    if (result != NULL) {
-
-      NSLog(@"See Asset: %@", result);
-      
-      [imageAssets addObject:result];
-    } else {
-      NSLog(@"the result is null");
-    }
-  };
-  
-  void (^assetGroupEnumerator)(struct ALAssetsGroup *, BOOL *) =  ^(ALAssetsGroup *group, BOOL *stop) {
-    NSLog(@"inside second block");
-    if (group != nil) {
-      NSLog(@"group is NOT nil");
-      [group enumerateAssetsUsingBlock:assetEnumerator];
-    } else {
-      NSLog(@"group is nil");
-    }
-    
-    [self.tblView reloadData];
-    [self.activityView stopAnimating];
-    [self.activityView setHidden:YES];
-  };
-  
-  imageAssets = [[NSMutableArray alloc] init];
-  
-  ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
-  
-  [library enumerateGroupsWithTypes:ALAssetsGroupAlbum
-                         usingBlock:assetGroupEnumerator
-                       failureBlock: ^(NSError *error) {
-                         NSLog(@"Failure");
-                       }];
-  
-  NSLog(@"count: %d", [self.imageAssets count]);
   
   [super viewDidLoad];
+  
+  [self.collectionView setPagingEnabled:YES];
+  [self.collectionView registerClass:[KellarPhotoViewerGridCell class]
+          forCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  
+  [super viewWillAppear:animated];
+  
+  [self fetchRandomlySampleImagesFromGalleryWithCompletionBlock:^(NSArray *images){
+  
+    if ([images count]) {
+      [self.collectionView reloadData];
+    }
+  }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,49 +75,76 @@
   [super viewDidUnload];
 }
 
-#pragma mark -
-#pragma mark Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section; {
+  return [self.galleryImages count];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [self.imageAssets count];
-}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath; {
+  
+  KellarPhotoViewerGridCell *cell = [cv dequeueReusableCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier
+                                                                  forIndexPath:indexPath];
+  
+  ALAsset *asset     = (ALAsset *)[self galleryImages][indexPath.row];
+  UIImage *thumbnail = [UIImage imageWithCGImage:[asset thumbnail]];
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  static NSString *CellIdentifier = @"Cell";
-  
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
-  if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-  }
-  
-  ALAsset *asset = [imageAssets objectAtIndex:indexPath.row];
-
-	[cell.imageView setImage:[UIImage imageWithCGImage:[asset thumbnail]]];
-	
-  [cell.textLabel setText:[NSString stringWithFormat:@"Photo %d", indexPath.row+1]];
+  cell.imgView.image = thumbnail;
   
   return cell;
 }
 
-#pragma mark -
-#pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Navigation logic may go here. Create and push another view controller.
-  /*
-   <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-   // ...
-   // Pass the selected object to the new view controller.
-   [self.navigationController pushViewController:detailViewController animated:YES];
-   [detailViewController release];
-   */
+#pragma mark - Private Methods
+
+- (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block {
+
+  ALAssetsLibrary *library = [self defaultAssetsLibrary];
+
+  dispatch_queue_t queue = dispatch_queue_create("com.kellar.imageiterator.queue", DISPATCH_QUEUE_SERIAL);
+  
+  dispatch_async(queue, ^{
+    
+    [library enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+      
+      if (group) {
+        
+        if ([group valueForProperty:ALAssetsGroupPropertyName]) {
+          
+          NSLog(@"album: %@", [group valueForProperty:ALAssetsGroupPropertyName]);
+          
+          [group enumerateAssetsUsingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
+            
+            if (asset) {
+              [self.galleryImages addObject:asset];
+            }
+            
+            if (index == 3) {
+              *stop = YES;
+            }
+          }];
+          
+          if (block) {
+            block(self.galleryImages);
+          }
+        }
+      }
+      
+    } failureBlock:^(NSError *error) {
+      
+      NSLog(@"error loading assets: %@", [error localizedDescription]);
+    }];
+  });
 }
 
+- (ALAssetsLibrary *)defaultAssetsLibrary {
+  
+  static dispatch_once_t pred     = 0;
+  static ALAssetsLibrary *library = nil;
+  
+  dispatch_once(&pred, ^{
+    library = [[ALAssetsLibrary alloc] init];
+  });
+  
+  return library;
+}
 
 @end

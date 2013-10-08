@@ -9,16 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface KellerPasswordReminderViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface KellerPasswordReminderViewController : UICollectionViewController
 
-  UITableView *tblView;
-  UIActivityIndicatorView *activityView;
-  
-  NSMutableArray *imageAssets;
-}
-
-@property (nonatomic, retain) UITableView *tblView;
-@property (nonatomic, retain) UIActivityIndicatorView *activityView;
-@property (nonatomic, retain) NSMutableArray *imageAssets;
+@property (nonatomic, strong) UITableView *tblView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityView;
+@property (nonatomic, strong) NSMutableArray *imageAssets;
 
 @end

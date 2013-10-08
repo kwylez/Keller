@@ -26,42 +26,49 @@
 
 @implementation KellerSetPasswordViewController
 
-@synthesize timer;
-@synthesize numSeconds;
-@synthesize isConfirming;
-@synthesize confirmPasswordArray;
-@synthesize initPasswordArray;
+@synthesize confirming = _confirming;
 
 - (void)dealloc {
+
+  _passwordManager.delegate = nil;
   
-  [timer release];
-  [confirmPasswordArray release];
-  [initPasswordArray release];
-	[super dealloc];
+  [self.timer invalidate];
+  
+  _timer = nil;
+}
+
+- (id)init {
+  
+  self = [super init];
+  
+  if (self) {
+
+    _passwordManager = [KellerPasswordManager sharedManager];
+    
+    _passwordManager.delegate = self;
+  }
+  
+  return self;
 }
 
 - (void)loadView {
   
-  UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+  UIView *mainView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
   
 	mainView.backgroundColor = [UIColor blackColor];
 	
 	self.view = mainView;
-	
-	[mainView release];
-  
-  [PasswordManager sharedManager].delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   
-  isConfirming = NO;
+  _confirming = NO;
   
   self.confirmPasswordArray = nil;
-  self.initPasswordArray    = nil;
+  self.passwordGestures    = nil;
   
   self.confirmPasswordArray = [[NSMutableArray alloc] init];
-  self.initPasswordArray    = [[NSMutableArray alloc] init];
+  self.passwordGestures    = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidLoad {
@@ -72,8 +79,6 @@
                                                                                     target:self action:@selector(cancelSettingPassword)];
   self.navigationItem.leftBarButtonItem = cancelButtonItem;
   
-  [cancelButtonItem release];
-  
   UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" 
                                                                      style:UIBarButtonItemStyleDone 
                                                                     target:self 
@@ -82,34 +87,31 @@
   self.navigationItem.rightBarButtonItem         = doneButtonItem;
   self.navigationItem.rightBarButtonItem.enabled = NO;
   
-  [doneButtonItem release];
-  
   self.numSeconds = 0 ;
 
 	/**
 	 * Rotation Gesture
 	 */
+
 	UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self 
                                                                                               action:@selector(handleRotationGesture:)];
 	
 	[self.view addGestureRecognizer:rotationGesture];
 	
-	[rotationGesture release];
-	
 	/**
 	 * Pinch Gesture
 	 */
-	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self 
+
+	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(handlePinchGesture:)];
 	
 	[self.view addGestureRecognizer:pinchGesture];
 	
-	[pinchGesture release];
-	
 	/**
 	 * Tap Gesture
 	 */
-	UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self 
+	
+  UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                action:@selector(handleTapGesture:)];
   
 	tapGesture.numberOfTapsRequired    = 1;
@@ -117,11 +119,10 @@
 	
 	[self.view addGestureRecognizer:tapGesture];
 	
-	[tapGesture release];
-	
 	/**
 	 * Swipe Gesture - Right
 	 */
+
 	UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self 
                                                                                           action:@selector(handleSwipeRightGesture:)];
   
@@ -129,13 +130,13 @@
 	rightSwipeGesture.numberOfTouchesRequired = 1;
 	
 	[self.view addGestureRecognizer:rightSwipeGesture];
-	
-	[rightSwipeGesture release];
+
 	
 	/**
 	 * Swipe Gesture - Left
 	 */
-	UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self 
+
+	UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                          action:@selector(handleSwipeLeftGesture:)];
 	
 	leftSwipeGesture.direction							 = UISwipeGestureRecognizerDirectionLeft;
@@ -143,11 +144,10 @@
 	
 	[self.view addGestureRecognizer:leftSwipeGesture];
 	
-	[leftSwipeGesture release];
-	
 	/**
 	 * Swipe Gesture - Down
 	 */
+
 	UISwipeGestureRecognizer *downSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self 
                                                                                          action:@selector(handleSwipeDownGesture:)];
 	
@@ -155,8 +155,6 @@
 	downSwipeGesture.numberOfTouchesRequired = 1;
 	
 	[self.view addGestureRecognizer:downSwipeGesture];
-	
-	[downSwipeGesture release];
 	
 	/**
 	 * Swipe Gesture - Up
@@ -169,8 +167,6 @@
 	
 	[self.view addGestureRecognizer:upSwipeGesture];
 	
-	[upSwipeGesture release];
-	
 	/**
 	 * Pan Gesture
 	 */
@@ -182,8 +178,6 @@
 	
 	[self.view addGestureRecognizer:panGesture];
 	
-	[panGesture release];
-	
 	/**
 	 * Long Press Gesture
 	 */
@@ -193,16 +187,17 @@
 	longPressGesture.minimumPressDuration = 1.0f;
 	
 	[self.view addGestureRecognizer:longPressGesture];
-	
-	[longPressGesture release];
 }
 
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 }
 
-#pragma mark -
-#pragma Informaal Protocol Methods
+- (BOOL)isConfirming {
+  return _confirming;
+}
+
+#pragma mark - Delegate Methods
 
 - (void)handleRotationGesture:(UIRotationGestureRecognizer *)gesture {
   
@@ -220,14 +215,12 @@
     
     isRight = ((gesture.rotation * (180 / M_PI)) - (previousPoint * (180 / M_PI))) >= 0 ? YES : NO;
     
-    RotateGesture *rotateGesture = [[RotateGesture alloc] init];
+    KellerRotateGesture *rotateGesture = [[KellerRotateGesture alloc] init];
     
     rotateGesture.isRightRotation = isRight;
-    rotateGesture.rotateGesture   = UIRotateGesture;
+    rotateGesture.rotateGesture   = KellerUIRotateGesture;
     
-    [self saveGesture:rotateGesture confirming:isConfirming];
-    
-    [rotateGesture release];
+    [self saveGesture:rotateGesture confirming:[self isConfirming]];
     
   } else if (gesture.state == UIGestureRecognizerStateBegan) {
     
@@ -246,11 +239,11 @@
 		
 		//NSLog(@"final result: %f", gesture.scale);
     
-    PinchGesture *pinchGesture = [[PinchGesture alloc] init];
+    KellerPinchGesture *pinchGesture = [[KellerPinchGesture alloc] init];
     
     pinchGesture.gestureVelocity = gesture.velocity;
     pinchGesture.gestureScale    = gesture.scale;
-    pinchGesture.pinchGesture    = UIPinchGesture;
+    pinchGesture.pinchGesture    = KellerUIPinchGesture;
 		
 		if (gesture.scale > 1.0) {
 			//NSLog(@"zoom out");
@@ -260,9 +253,7 @@
       pinchGesture.isZoomOut = NO;
 		}
     
-    [self saveGesture:pinchGesture confirming:isConfirming];
-    
-    [pinchGesture release];
+    [self saveGesture:pinchGesture confirming:[self isConfirming]];
     
 	} else if (gesture.state == UIGestureRecognizerStateBegan) {
     //NSLog(@"start result: %f", gesture.scale);
@@ -275,13 +266,11 @@
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-  TapGesture *tapGesture = [[TapGesture alloc] init];
+  KellerTapGesture *tapGesture = [[KellerTapGesture alloc] init];
   
-  tapGesture.tapGesture = UITapGesture;
+  tapGesture.tapGesture = KellerUITapGesture;
   
-  [self saveGesture:tapGesture confirming:isConfirming];
-  
-  [tapGesture release];
+  [self saveGesture:tapGesture confirming:[self isConfirming]];
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)gesture {
@@ -292,14 +281,12 @@
   
   if (gesture.state == UIGestureRecognizerStateEnded) {
     
-    PanGesture *panGesture = [[PanGesture alloc] init];
+    KellerPanGesture *panGesture = [[KellerPanGesture alloc] init];
     
-    panGesture.panGesture      = UIPanGesture;
+    panGesture.panGesture      = KellerUIPanGesture;
     panGesture.numberOfTouches = gesture.numberOfTouches;
     
-    [self saveGesture:panGesture confirming:isConfirming];
-    
-    [panGesture release];
+    [self saveGesture:panGesture confirming:[self isConfirming]];
   }
 }
 
@@ -309,13 +296,11 @@
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
-  SwipeGesture *swipeGesture = [[SwipeGesture alloc] init];
+  KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
   
-  swipeGesture.swipeGesture = UISwipeLeftGesture;
+  swipeGesture.swipeGesture = KellerUISwipeLeftGesture;
   
-  [self saveGesture:swipeGesture confirming:isConfirming];
-  
-  [swipeGesture release];
+  [self saveGesture:swipeGesture confirming:[self isConfirming]];
 }
 
 - (void)handleSwipeRightGesture:(UISwipeGestureRecognizer *)gesture {
@@ -324,13 +309,11 @@
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
-  SwipeGesture *swipeGesture = [[SwipeGesture alloc] init];
+  KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
   
-  swipeGesture.swipeGesture = UISwipeRightGesture;
+  swipeGesture.swipeGesture = KellerUISwipeRightGesture;
   
-  [self saveGesture:swipeGesture confirming:isConfirming];
-  
-  [swipeGesture release];
+  [self saveGesture:swipeGesture confirming:[self isConfirming]];
 }
 
 - (void)handleSwipeDownGesture:(UISwipeGestureRecognizer *)gesture {
@@ -339,13 +322,11 @@
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
-  SwipeGesture *swipeGesture = [[SwipeGesture alloc] init];
+  KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
   
-  swipeGesture.swipeGesture = UISwipeDownGesture;
+  swipeGesture.swipeGesture = KellerUISwipeDownGesture;
   
-  [self saveGesture:swipeGesture confirming:isConfirming];
-  
-  [swipeGesture release];
+  [self saveGesture:swipeGesture confirming:[self isConfirming]];
 }
 
 - (void)handleSwipeUpGesture:(UISwipeGestureRecognizer *)gesture {
@@ -353,14 +334,12 @@
   //NSLog(@"swipe gesture up");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
+
+  KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
   
-  SwipeGesture *swipeGesture = [[SwipeGesture alloc] init];
+  swipeGesture.swipeGesture = KellerUISwipeUpGesture;
   
-  swipeGesture.swipeGesture = UISwipeUpGesture;
-  
-  [self saveGesture:swipeGesture confirming:isConfirming];
-  
-  [swipeGesture release];
+  [self saveGesture:swipeGesture confirming:[self isConfirming]];
 }
 
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)gesture {
@@ -371,16 +350,14 @@
   
 	if (gesture.state == UIGestureRecognizerStateEnded) {
   
-    LongPressGesture *longPressGesture = [[LongPressGesture alloc] init];
+    KellerLongPressGesture *longPressGesture = [[KellerLongPressGesture alloc] init];
     
-    longPressGesture.longPressGesture = UILongPressGesture;
-    longPressGesture.numberOfSeconds  = numSeconds;
+    longPressGesture.longPressGesture = KellerUILongPressGesture;
+    longPressGesture.numberOfSeconds  = self.numSeconds;
     
     //NSLog(@"number of seconds: %d", numSeconds);
     
-    [self saveGesture:longPressGesture confirming:isConfirming];
-    
-    [longPressGesture release];
+    [self saveGesture:longPressGesture confirming:[self isConfirming]];
     
     [self.timer invalidate];
 
@@ -400,7 +377,7 @@
 #pragma mark Private Methods
 
 - (void)incrementNumOfSeconds {
-  numSeconds = numSeconds++;
+  self.numSeconds = self.numSeconds++;
 }
 
 - (BOOL)arePasswordsEqualed {
@@ -408,13 +385,15 @@
   /**
    * Debug arrays
    */
+
   for (id cp in self.confirmPasswordArray) {
     NSLog(@"cp: %@", cp);
   }
   
-  for (id ip in self.initPasswordArray) {
+  for (id ip in self.passwordGestures) {
     NSLog(@"ip: %@", ip);
   }
+
   /**
    * End debug arrays
    */
@@ -424,7 +403,8 @@
    * need address this potential bug. If you don't confirm the password then hit done 
    * what happens is they become equal because the arrays are both empty
    */
-  if ([self.confirmPasswordArray isEqualToArray:self.initPasswordArray]) {
+  
+  if ([self.confirmPasswordArray isEqualToArray:self.passwordGestures]) {
     NSLog(@"is equal");
     return YES;
   } else {
@@ -441,17 +421,17 @@
   /**
    * If the passwords are equal then iterate and save it to nsuserdefaults
    */
-  if ([self arePasswordsEqualed] && isConfirming) {
+  if ([self arePasswordsEqualed] && [self isConfirming]) {
     
-    for (id gesture in self.initPasswordArray) {
-      [[PasswordManager sharedManager] saveGesture:gesture];
+    for (id gesture in self.passwordGestures) {
+      [self.passwordManager saveGesture:gesture];
     }
 
   } else {
 
-    isConfirming = NO;
+    _confirming = NO;
     
-    [self.initPasswordArray removeAllObjects];
+    [self.passwordGestures removeAllObjects];
     [self.confirmPasswordArray removeAllObjects];
     
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" 
@@ -461,22 +441,18 @@
     
     self.navigationItem.rightBarButtonItem         = doneButtonItem;
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    [doneButtonItem release];
   }
 }
 
 - (void)confirmingPasswordAction {
   
-  isConfirming = YES;
+  _confirming = YES;
   
   UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
                                                                                   target:self 
                                                                                   action:@selector(finishedSettingPassword)];
   
   self.navigationItem.rightBarButtonItem = doneButtonItem;
-  
-  [doneButtonItem release];
 }
 
 - (void)saveGesture:(id)gesture confirming:(BOOL)confirming {
@@ -486,7 +462,7 @@
     [self.confirmPasswordArray addObject:gesture];
   } else {
     NSLog(@"is not confirming:");
-    [self.initPasswordArray addObject:gesture];
+    [self.passwordGestures addObject:gesture];
   }
 }
 
@@ -495,14 +471,15 @@
   NSUserDefaults *prefs       = [NSUserDefaults standardUserDefaults];
   NSData *passwordGestureData = nil;
   
-  [prefs setObject:passwordGestureData forKey:kPasswordGestureKey];
+  [prefs setObject:passwordGestureData forKey:KellerPasswordGestureKey];
   
   [prefs synchronize];
   
-  [self dismissModalViewControllerAnimated:YES];
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Gesture Delegate Protocol Methods
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
 	return YES;
 }
@@ -519,6 +496,5 @@
 - (void)saveGestureDidFail {
   NSLog(@"did not save successfully");
 }
-
 
 @end

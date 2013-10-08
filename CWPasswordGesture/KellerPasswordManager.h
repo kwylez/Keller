@@ -26,7 +26,7 @@
 	} _delegateFlags;
 }
 
-@property (nonatomic, assign) id<KellerPasswordGestureDelegate> delegate;
+@property (nonatomic, weak) id<KellerPasswordGestureDelegate> delegate;
 
 + (KellerPasswordManager *)sharedManager;
 - (void)saveGesture:(id)gesture;

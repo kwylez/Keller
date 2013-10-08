@@ -7,12 +7,24 @@
 //
 
 #import "CWAppDelegate.h"
+#import "CWViewController.h"
 
 @implementation CWAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+
+  
+  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  
+  CWViewController *mainViewController = [[CWViewController alloc] init];
+  
+  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+  
+  self.window.rootViewController = navigationController;
+  
+  [self.window makeKeyAndVisible];
+  
     return YES;
 }
 							

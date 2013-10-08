@@ -8,22 +8,61 @@
 
 #import "CWViewController.h"
 
-@interface CWViewController ()
+#import "KellerPasswordReminderViewController.h"
 
+@interface CWViewController ()
+- (void)presentController:(id)sender;
 @end
 
 @implementation CWViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+- (instancetype)init {
+  
+  self = [super init];
+  
+  if (self) {
+    
+    self.title = NSLocalizedString(@"Reset Password", nil);
+  }
+  
+  return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)loadView {
+
+  self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  
+  self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewDidLoad {
+
+  [super viewDidLoad];
+  
+  UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  
+  [btn setTitle:@"Remind me" forState:UIControlStateNormal];
+  
+  btn.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+  btn.frame           = (CGRect){0, 0, 200, 200};
+  btn.center          = self.view.center;
+
+  [btn addTarget:self
+          action:@selector(presentController:)
+forControlEvents:UIControlEventTouchUpInside];
+
+  [self.view addSubview:btn];
+}
+
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
+}
+
+- (void)presentController:(id)__unused sender {
+  
+  KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
+  
+  [self presentViewController:reminder animated:YES completion:^{}];
 }
 
 @end

@@ -7,14 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PasswordManager.h"
-#import "PanGesture.h"
-#import "TapGesture.h"
-#import "RotateGesture.h"
-#import "PinchGesture.h"
-#import "SwipeGesture.h"
-#import "LongPressGesture.h"
-#import "PasswordGestureProtocol.h"
+#import "Kellar.h"
 
 /**
  * @todo
@@ -24,20 +17,14 @@
  * Also need to research how to handle if a call comes in or the app enters the background
  */
 
-@interface KellerSetPasswordViewController : UIViewController <UIGestureRecognizerDelegate, PasswordGestureDelegate> {
-  
-  NSTimer *timer;
-  NSUInteger numSeconds;
-  BOOL isConfirming;
-  NSMutableArray *initPasswordArray;
-  NSMutableArray *confirmPasswordArray;
-}
+@interface KellerSetPasswordViewController : UIViewController <UIGestureRecognizerDelegate, KellerPasswordGestureDelegate>
 
-@property (nonatomic, retain) NSTimer *timer;
-@property NSUInteger numSeconds;
-@property (nonatomic, readonly) BOOL isConfirming;
-@property (nonatomic, retain) NSMutableArray *confirmPasswordArray;
-@property (nonatomic, retain) NSMutableArray *initPasswordArray;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) NSUInteger numSeconds;
+@property (nonatomic, getter = isConfirming, readonly) BOOL confirming;
+@property (nonatomic, strong) NSMutableArray *confirmPasswordArray;
+@property (nonatomic, strong) NSMutableArray *passwordGestures;
+@property (nonatomic, strong) KellerPasswordManager *passwordManager;
 
 - (void)finishedSettingPassword;
 - (void)confirmingPasswordAction;

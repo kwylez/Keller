@@ -10,11 +10,9 @@
 #import "KellerSetPasswordViewController.h"
 #import "KellerPasswordReminderViewController.h"
 
-@interface KellerViewController : UIViewController {
+@interface KellerViewController : UIViewController
 
-}
-
-- (void)presentSetPasswordVC;
-- (void)presentReminderPasswordVC;
+- (void)presentSetPasswordViewController;
+- (void)presentReminderPasswordViewController;
 
 @end

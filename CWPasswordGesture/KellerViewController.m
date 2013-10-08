@@ -7,28 +7,29 @@
 //
 
 #import "KellerViewController.h"
-
+#import "KellerConstants.h"
 
 @implementation KellerViewController
 
 - (void)loadView {
 
-  UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+  UIView *mainView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
 	mainView.backgroundColor = [UIColor blackColor];
 	
 	self.view = mainView;
-	
-	[mainView release];
 }
 
 - (void)viewDidLoad {
   
+	[super viewDidLoad];
+  
   /**
    * Iterate over NSUserDefaults
    */
+
   NSUserDefaults *prefs       = [NSUserDefaults standardUserDefaults];
-  NSData *passwordGestureData = [prefs objectForKey:kPasswordGestureKey];
+  NSData *passwordGestureData = [prefs objectForKey:KellerPasswordGestureKey];
   
   if (passwordGestureData != nil) {
     
@@ -41,15 +42,19 @@
       }
     }
   }
+  
   /**
    * End of debugging
    */
+  
   UIButton *setPasswordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
   
   setPasswordButton.frame = CGRectMake(20, 100, 200, 40);
 
-  [setPasswordButton setTitle:@"Set Password" forState:UIControlStateNormal];
-  [setPasswordButton addTarget:self action:@selector(presentSetPasswordVC) forControlEvents:UIControlEventTouchUpInside];
+  [setPasswordButton setTitle:NSLocalizedString(@"Set Password", nil)
+                     forState:UIControlStateNormal];
+  [setPasswordButton addTarget:self action:@selector(presentSetPasswordViewController)
+              forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:setPasswordButton];
   
@@ -57,26 +62,19 @@
   
   passReminderButton.frame = CGRectMake(20, 150, 200, 40);
   
-  [passReminderButton setTitle:@"Password Reminder" forState:UIControlStateNormal];
-  [passReminderButton addTarget:self action:@selector(presentReminderPasswordVC) forControlEvents:UIControlEventTouchUpInside];
+  [passReminderButton setTitle:NSLocalizedString(@"Password Reminder", nil)
+                      forState:UIControlStateNormal];
+  [passReminderButton addTarget:self
+                         action:@selector(presentReminderPasswordViewController)
+               forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:passReminderButton];
-  
-	[super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-}
-
-- (void)dealloc {
-	[super dealloc];
 }
 
 #pragma mark -
 #pragma mark Custom Methods
 
-- (void)presentSetPasswordVC {
+- (void)presentSetPasswordViewController {
   
   KellerSetPasswordViewController *setPass = [[KellerSetPasswordViewController alloc] init];
   
@@ -84,20 +82,14 @@
   
   UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:setPass];
   
-  [setPass release];
-  
-  [self presentModalViewController:navController animated:YES];
-  
-  [navController release];
+  [self presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)presentReminderPasswordVC {
+- (void)presentReminderPasswordViewController {
   
   KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] init];
   
-  [self presentModalViewController:reminder animated:YES];
-  
-  [reminder release];
+  [self presentViewController:reminder animated:YES completion:nil];
 }
 
 @end
