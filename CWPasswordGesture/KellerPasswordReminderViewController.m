@@ -17,6 +17,7 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 @interface KellerPasswordReminderViewController()
 
 @property (nonatomic, strong) NSMutableArray *galleryImages;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 
 - (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block;
 - (ALAssetsLibrary *)defaultAssetsLibrary;
@@ -41,6 +42,8 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
     self.clearsSelectionOnViewWillAppear = YES;
     
     _galleryImages = [NSMutableArray new];
+    
+    self.collectionView.backgroundColor = [UIColor whiteColor];
   }
   
   return self;
@@ -61,6 +64,9 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   
   [self fetchRandomlySampleImagesFromGalleryWithCompletionBlock:^(NSArray *images){
   
+    [self.loadingView stopAnimating];
+    [self.loadingView removeFromSuperview];
+    
     if ([images count]) {
       [self.collectionView reloadData];
     }
@@ -92,10 +98,23 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   return cell;
 }
 
-
 #pragma mark - Private Methods
 
 - (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block {
+  
+  /**
+   * Unfortunately without caching this takes a bit of time. Enough that we 
+   * need to notifiy the user.
+   */
+  
+  self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  
+  self.loadingView.center           = self.view.center;
+  self.loadingView.hidesWhenStopped = YES;
+  
+  [self.loadingView startAnimating];
+  
+  [self.view addSubview:self.loadingView];
 
   ALAssetsLibrary *library = [self defaultAssetsLibrary];
 
@@ -111,14 +130,32 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
           
           NSLog(@"album: %@", [group valueForProperty:ALAssetsGroupPropertyName]);
           
-          [group enumerateAssetsUsingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
+          /**
+           * Need to get 10 random indices from array.
+           * @todo
+           * Find a better way to do this.
+           */
+          
+          NSIndexSet* (^randomImageIndexSet)(NSInteger numberOfPhotos) = ^ NSIndexSet*(NSInteger numberOfPhotos) {
             
+            static NSInteger INDICE_LIMIT = 10;
+
+            NSMutableIndexSet *indices = [NSMutableIndexSet new];
+            
+            for (int i = 0; i <= INDICE_LIMIT; i++) {
+
+              NSUInteger r = arc4random_uniform(numberOfPhotos);
+              
+              [indices addIndex:r];
+            }
+              
+            return indices;
+          };
+          
+          [group enumerateAssetsAtIndexes:randomImageIndexSet([group numberOfAssets]) options:NSEnumerationConcurrent usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
+          
             if (asset) {
               [self.galleryImages addObject:asset];
-            }
-            
-            if (index == 3) {
-              *stop = YES;
             }
           }];
           
