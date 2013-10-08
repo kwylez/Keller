@@ -63,8 +63,9 @@ forControlEvents:UIControlEventTouchUpInside];
 - (void)presentController:(id)__unused sender {
   
   KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
   
-  [self presentViewController:reminder animated:YES completion:^{}];
+  [self presentViewController:navController animated:YES completion:nil];
 }
 
 @end
