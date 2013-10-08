@@ -8,7 +8,11 @@
 
 #import "KellerSetPasswordViewController.h"
 
+static CGSize const pointSize = (CGSize){44.0f, 44.0f};
+
 @interface KellerSetPasswordViewController()
+
+@property (nonatomic, strong) NSMutableArray *previousLocations;
 
 - (void)handleRotationGesture:(UIRotationGestureRecognizer *)gesture;
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)gesture;
@@ -46,6 +50,10 @@
     _passwordManager = [KellerPasswordManager sharedManager];
     
     _passwordManager.delegate = self;
+    
+    _previousLocations    = [NSMutableArray new];
+    _confirmPasswordArray = [NSMutableArray new];
+    _passwordGestures     = [NSMutableArray new];
   }
   
   return self;
@@ -64,11 +72,8 @@
   
   _confirming = NO;
   
-  self.confirmPasswordArray = nil;
-  self.passwordGestures    = nil;
-  
-  self.confirmPasswordArray = [[NSMutableArray alloc] init];
-  self.passwordGestures    = [[NSMutableArray alloc] init];
+  [self.confirmPasswordArray removeAllObjects];
+  [self.passwordGestures removeAllObjects];
 }
 
 - (void)viewDidLoad {
@@ -95,6 +100,9 @@
 
 	UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self 
                                                                                               action:@selector(handleRotationGesture:)];
+  
+  rotationGesture.delegate             = self;
+  rotationGesture.cancelsTouchesInView = NO;
 	
 	[self.view addGestureRecognizer:rotationGesture];
 	
@@ -104,7 +112,10 @@
 
 	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(handlePinchGesture:)];
-	
+  
+  pinchGesture.delegate             = self;
+	pinchGesture.cancelsTouchesInView = NO;
+
 	[self.view addGestureRecognizer:pinchGesture];
 	
 	/**
@@ -116,6 +127,8 @@
   
 	tapGesture.numberOfTapsRequired    = 1;
 	tapGesture.numberOfTouchesRequired = 1;
+  tapGesture.delegate                = self;
+  tapGesture.cancelsTouchesInView    = NO;
 	
 	[self.view addGestureRecognizer:tapGesture];
 	
@@ -128,6 +141,8 @@
   
 	rightSwipeGesture.direction							  = UISwipeGestureRecognizerDirectionRight;
 	rightSwipeGesture.numberOfTouchesRequired = 1;
+  rightSwipeGesture.delegate                = self;
+  rightSwipeGesture.cancelsTouchesInView    = NO;
 	
 	[self.view addGestureRecognizer:rightSwipeGesture];
 
@@ -141,6 +156,8 @@
 	
 	leftSwipeGesture.direction							 = UISwipeGestureRecognizerDirectionLeft;
 	leftSwipeGesture.numberOfTouchesRequired = 1;
+  leftSwipeGesture.delegate                = self;
+  leftSwipeGesture.cancelsTouchesInView    = NO;
 	
 	[self.view addGestureRecognizer:leftSwipeGesture];
 	
@@ -153,40 +170,58 @@
 	
 	downSwipeGesture.direction							 = UISwipeGestureRecognizerDirectionDown;
 	downSwipeGesture.numberOfTouchesRequired = 1;
+  downSwipeGesture.delegate                = self;
+  downSwipeGesture.cancelsTouchesInView    = NO;
 	
 	[self.view addGestureRecognizer:downSwipeGesture];
 	
 	/**
 	 * Swipe Gesture - Up
 	 */
+
 	UISwipeGestureRecognizer *upSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self 
                                                                                        action:@selector(handleSwipeUpGesture:)];
 	
 	upSwipeGesture.direction							 = UISwipeGestureRecognizerDirectionUp;
 	upSwipeGesture.numberOfTouchesRequired = 1;
+  upSwipeGesture.delegate                = self;
+  upSwipeGesture.cancelsTouchesInView    = NO;
 	
 	[self.view addGestureRecognizer:upSwipeGesture];
 	
 	/**
 	 * Pan Gesture
 	 */
+
 	UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self 
                                                                                action:@selector(handlePanGesture:)];
 	
 	panGesture.minimumNumberOfTouches = 2;
 	panGesture.maximumNumberOfTouches = 4;
+  panGesture.delegate               = self;
+  panGesture.cancelsTouchesInView   = NO;
 	
 	[self.view addGestureRecognizer:panGesture];
 	
 	/**
 	 * Long Press Gesture
 	 */
+
 	UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self 
                                                                                                  action:@selector(handleLongPressGesture:)];
 	
 	longPressGesture.minimumPressDuration = 1.0f;
-	
+	longPressGesture.delegate             = self;
+  longPressGesture.cancelsTouchesInView = NO;
+
 	[self.view addGestureRecognizer:longPressGesture];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  
+  [super viewWillDisappear:animated];
+  
+  [self.previousLocations removeAllObjects];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -211,7 +246,7 @@
     
     finalRotation = gesture.rotation;
 		
-		//NSLog(@"rotation: %f", gesture.rotation * (180 / M_PI));
+		NSLog(@"rotation: %f", gesture.rotation * (180 / M_PI));
     
     isRight = ((gesture.rotation * (180 / M_PI)) - (previousPoint * (180 / M_PI))) >= 0 ? YES : NO;
     
@@ -227,7 +262,7 @@
 		previousPoint    = gesture.rotation;
     gesture.rotation = finalRotation;
 		
-		//NSLog(@"rotatin start: %f", previousPoint * (180 / M_PI));
+		NSLog(@"rotatin start: %f", previousPoint * (180 / M_PI));
   }
 }
 
@@ -237,7 +272,7 @@
   
 	if (gesture.state == UIGestureRecognizerStateEnded) {
 		
-		//NSLog(@"final result: %f", gesture.scale);
+		NSLog(@"final result: %f", gesture.scale);
     
     KellerPinchGesture *pinchGesture = [[KellerPinchGesture alloc] init];
     
@@ -246,23 +281,29 @@
     pinchGesture.pinchGesture    = KellerUIPinchGesture;
 		
 		if (gesture.scale > 1.0) {
-			//NSLog(@"zoom out");
+			
+      NSLog(@"zoom out");
+      
       pinchGesture.isZoomOut = YES;
+
 		} else {
-      //NSLog(@"zoom in");
+      
+      NSLog(@"zoom in");
+      
       pinchGesture.isZoomOut = NO;
 		}
     
     [self saveGesture:pinchGesture confirming:[self isConfirming]];
     
 	} else if (gesture.state == UIGestureRecognizerStateBegan) {
-    //NSLog(@"start result: %f", gesture.scale);
+
+    NSLog(@"start result: %f", gesture.scale);
 	}
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gesture {
   
-	//NSLog(@"i am tap gesture");
+	NSLog(@"i am tap gesture");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
 	
@@ -275,7 +316,7 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)gesture {
 	
-  //NSLog(@"pan gesture");
+  NSLog(@"pan gesture");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
@@ -292,7 +333,7 @@
 
 - (void)handleSwipeLeftGesture:(UISwipeGestureRecognizer *)gesture {
 	
-  //NSLog(@"left gesture swipe");
+  NSLog(@"left gesture swipe");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
@@ -305,7 +346,7 @@
 
 - (void)handleSwipeRightGesture:(UISwipeGestureRecognizer *)gesture {
 	
-  //NSLog(@"right gesture swipe");
+  NSLog(@"right gesture swipe");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
@@ -318,7 +359,7 @@
 
 - (void)handleSwipeDownGesture:(UISwipeGestureRecognizer *)gesture {
 	
-  //NSLog(@"swipe gesture down");
+  NSLog(@"swipe gesture down");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
@@ -330,9 +371,9 @@
 }
 
 - (void)handleSwipeUpGesture:(UISwipeGestureRecognizer *)gesture {
-	
-  //NSLog(@"swipe gesture up");
   
+  NSLog(@"swipe gesture up");
+
   self.navigationItem.rightBarButtonItem.enabled = YES;
 
   KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
@@ -344,7 +385,7 @@
 
 - (void)handleLongPressGesture:(UILongPressGestureRecognizer *)gesture {
 
-	//NSLog(@"long press gesture");
+	NSLog(@"long press gesture");
   
   self.navigationItem.rightBarButtonItem.enabled = YES;
   
@@ -355,7 +396,7 @@
     longPressGesture.longPressGesture = KellerUILongPressGesture;
     longPressGesture.numberOfSeconds  = self.numSeconds;
     
-    //NSLog(@"number of seconds: %d", numSeconds);
+    NSLog(@"number of seconds: %d", self.numSeconds);
     
     [self saveGesture:longPressGesture confirming:[self isConfirming]];
     
@@ -373,8 +414,7 @@
 	}
 }
 
-#pragma mark -
-#pragma mark Private Methods
+#pragma mark - Private Methods
 
 - (void)incrementNumOfSeconds {
   self.numSeconds = self.numSeconds++;
@@ -413,14 +453,14 @@
   }
 }
 
-#pragma mark -
-#pragma mark Custom Methods
+#pragma mark - Custom Methods
 
 - (void)finishedSettingPassword {
 
   /**
    * If the passwords are equal then iterate and save it to nsuserdefaults
    */
+
   if ([self arePasswordsEqualed] && [self isConfirming]) {
     
     for (id gesture in self.passwordGestures) {
@@ -485,10 +525,58 @@
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-	return YES;
+  return YES;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self.previousLocations removeAllObjects];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  
+  CGPoint touchLocation = [[touches anyObject] locationInView:self.view];
+  
+  NSLog(@"touchesMoved: %@", NSStringFromCGPoint(touchLocation));
+
+//  [self.previousLocations addObject:[NSValue valueWithCGPoint:touchLocation]];
+  
+  UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(touchLocation.x, touchLocation.y, pointSize.width, pointSize.height)];
+  
+  pointView.alpha           = 0.2f;
+  pointView.backgroundColor = [UIColor redColor];
+  
+  [self.view addSubview:pointView];
+  
+  [UIView animateWithDuration:0.5f
+                   animations:^{
+                     pointView.alpha = 1.0f;
+                   }
+                   completion:^(BOOL finished){
+                     [UIView animateWithDuration:0.4f
+                                      animations:^{
+                                        pointView.alpha = 0.0f;
+                                      }
+                                      completion:^(BOOL finished){
+                                        [pointView removeFromSuperview];
+                                      }];
+                   }];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+  CGPoint touchLocation = [[touches anyObject] locationInView:self.view];
+  
+  NSLog(@"touchesEnded: %@", NSStringFromCGPoint(touchLocation));
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  CGPoint touchLocation = [[touches anyObject] locationInView:self.view];
+  
+  NSLog(@"touchesCancelled: %@", NSStringFromCGPoint(touchLocation));
 }
 
 #pragma mark - PasswordGestureDelegate Methods
+
 - (void)saveGestureDidSucceed {
   NSLog(@"did save successfully");
 }
