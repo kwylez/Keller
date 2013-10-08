@@ -9,6 +9,7 @@
 #import "CWViewController.h"
 
 #import "KellerPasswordReminderViewController.h"
+#import "KellerSetPasswordViewController.h"
 
 @interface CWViewController()
 
@@ -17,7 +18,8 @@
 @property (nonatomic, strong) UIButton *viewProtectedContentButton;
 @property (nonatomic, strong) UIButton *createPasswordButton;
 
-- (void)presentController:(id)sender;
+- (void)presentReminderController:(id)sender;
+- (void)presentCreatedPasswordController:(id)sender;
 - (void)addConstraintsForView;
 
 @end
@@ -58,7 +60,7 @@
   self.reminderButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
 
   [self.reminderButton addTarget:self
-          action:@selector(presentController:)
+          action:@selector(presentReminderController:)
 forControlEvents:UIControlEventTouchUpInside];
 
   [self.view addSubview:self.reminderButton];
@@ -72,7 +74,7 @@ forControlEvents:UIControlEventTouchUpInside];
   self.loginButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
   [self.loginButton addTarget:self
-                          action:@selector(presentController:)
+                          action:@selector(presentReminderController:)
                 forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.loginButton];
@@ -86,7 +88,7 @@ forControlEvents:UIControlEventTouchUpInside];
   self.viewProtectedContentButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
   [self.viewProtectedContentButton addTarget:self
-                       action:@selector(presentController:)
+                       action:@selector(presentReminderController:)
              forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.viewProtectedContentButton];
@@ -100,7 +102,7 @@ forControlEvents:UIControlEventTouchUpInside];
   self.createPasswordButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
   [self.createPasswordButton addTarget:self
-                                      action:@selector(presentController:)
+                                      action:@selector(presentCreatedPasswordController:)
                             forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.createPasswordButton];
@@ -108,13 +110,9 @@ forControlEvents:UIControlEventTouchUpInside];
   [self addConstraintsForView];
 }
 
+#pragma mark - Private Methods
 
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-}
-
-- (void)presentController:(id)__unused sender {
+- (void)presentReminderController:(id)__unused sender {
   
   KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
   UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
@@ -122,7 +120,13 @@ forControlEvents:UIControlEventTouchUpInside];
   [self presentViewController:navController animated:YES completion:nil];
 }
 
-#pragma mark - Private Methods
+- (void)presentCreatedPasswordController:(id)__unused sender {
+
+  KellerSetPasswordViewController *password = [[KellerSetPasswordViewController alloc] init];
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:password];
+  
+  [self presentViewController:navController animated:YES completion:nil];
+}
 
 - (void)addConstraintsForView {
 
