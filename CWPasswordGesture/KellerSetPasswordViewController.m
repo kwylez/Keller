@@ -66,6 +66,8 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 	mainView.backgroundColor = [UIColor blackColor];
 	
 	self.view = mainView;
+
+  self.view.multipleTouchEnabled = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -534,32 +536,41 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   
-  CGPoint touchLocation = [[touches anyObject] locationInView:self.view];
+//  CGPoint touchLocation = [[touches anyObject] locationInView:self.view];
   
-  NSLog(@"touchesMoved: %@", NSStringFromCGPoint(touchLocation));
-
+//  NSLog(@"touchesMoved: %@", NSStringFromCGPoint(touchLocation));
+//
 //  [self.previousLocations addObject:[NSValue valueWithCGPoint:touchLocation]];
   
-  UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(touchLocation.x, touchLocation.y, pointSize.width, pointSize.height)];
+  for (UITouch *touch in touches) {
   
-  pointView.alpha           = 0.2f;
-  pointView.backgroundColor = [UIColor redColor];
-  
-  [self.view addSubview:pointView];
-  
-  [UIView animateWithDuration:0.5f
-                   animations:^{
-                     pointView.alpha = 1.0f;
-                   }
-                   completion:^(BOOL finished){
-                     [UIView animateWithDuration:0.4f
-                                      animations:^{
-                                        pointView.alpha = 0.0f;
-                                      }
-                                      completion:^(BOOL finished){
-                                        [pointView removeFromSuperview];
-                                      }];
-                   }];
+    NSString *touchKey = [NSString stringWithFormat:@"%d", (int) touch];
+    
+    NSLog(@"touchKey: %@", touchKey);
+    
+    CGPoint touchLocation = [touch locationInView:self.view];
+    
+    UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(touchLocation.x, touchLocation.y, pointSize.width, pointSize.height)];
+    
+    pointView.alpha           = 0.2f;
+    pointView.backgroundColor = [UIColor redColor];
+    
+    [self.view addSubview:pointView];
+    
+    [UIView animateWithDuration:0.5f
+                     animations:^{
+                       pointView.alpha = 1.0f;
+                     }
+                     completion:^(BOOL finished){
+                       [UIView animateWithDuration:0.4f
+                                        animations:^{
+                                          pointView.alpha = 0.0f;
+                                        }
+                                        completion:^(BOOL finished){
+                                          [pointView removeFromSuperview];
+                                        }];
+                     }];
+  }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
