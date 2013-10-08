@@ -11,7 +11,9 @@
 #import "KellerPasswordReminderViewController.h"
 
 @interface CWViewController ()
+
 - (void)presentController:(id)sender;
+
 @end
 
 @implementation CWViewController
