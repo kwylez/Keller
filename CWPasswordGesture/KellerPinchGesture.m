@@ -74,7 +74,7 @@
   return YES;
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return self.isZoomOut + self.gestureScale + self.gestureVelocity + self.pinchGesture;
 }
 

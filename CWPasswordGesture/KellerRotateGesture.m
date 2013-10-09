@@ -65,7 +65,7 @@
   return YES;
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return isRightRotation ^ rotateGesture;
 }
 

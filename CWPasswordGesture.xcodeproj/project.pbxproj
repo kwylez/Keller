@@ -47,6 +47,8 @@
 		01957561180303FE004D8277 /* KellerPhotoViewerGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755D180303FE004D8277 /* KellerPhotoViewerGridCell.m */; };
 		01957562180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */; };
 		01957563180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */; };
+		01DA831A1805EDF500AF932A /* NSArray+Kellar.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA83191805EDF500AF932A /* NSArray+Kellar.m */; };
+		01DA831B1805EDF500AF932A /* NSArray+Kellar.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA83191805EDF500AF932A /* NSArray+Kellar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,8 @@
 		0195755D180303FE004D8277 /* KellerPhotoViewerGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPhotoViewerGridCell.m; sourceTree = "<group>"; };
 		0195755E180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPhotoViewerGridFlowLayout.h; sourceTree = "<group>"; };
 		0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPhotoViewerGridFlowLayout.m; sourceTree = "<group>"; };
+		01DA83181805EDF500AF932A /* NSArray+Kellar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Kellar.h"; sourceTree = "<group>"; };
+		01DA83191805EDF500AF932A /* NSArray+Kellar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Kellar.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +214,7 @@
 		019575261802E9DA004D8277 /* Keller */ = {
 			isa = PBXGroup;
 			children = (
+				01DA83171805EDD700AF932A /* Additions */,
 				0195754C1802F846004D8277 /* Controllers */,
 				019575481802EF87004D8277 /* Keller.h */,
 				019575471802EF75004D8277 /* Constants */,
@@ -279,6 +284,15 @@
 				0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */,
 			);
 			name = "Collection Views";
+			sourceTree = "<group>";
+		};
+		01DA83171805EDD700AF932A /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				01DA83181805EDF500AF932A /* NSArray+Kellar.h */,
+				01DA83191805EDF500AF932A /* NSArray+Kellar.m */,
+			);
+			name = Additions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,6 +400,7 @@
 				019575551802F85F004D8277 /* KellerSetPasswordViewController.m in Sources */,
 				019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */,
 				0195753B1802EA68004D8277 /* KellerTapGesture.m in Sources */,
+				01DA831A1805EDF500AF932A /* NSArray+Kellar.m in Sources */,
 				01957560180303FE004D8277 /* KellerPhotoViewerGridCell.m in Sources */,
 				0195753F1802EA68004D8277 /* KellerPinchGesture.m in Sources */,
 				019575431802EA68004D8277 /* KellerLongPressGesture.m in Sources */,
@@ -416,6 +431,7 @@
 				0195753C1802EA68004D8277 /* KellerTapGesture.m in Sources */,
 				019575401802EA68004D8277 /* KellerPinchGesture.m in Sources */,
 				01957561180303FE004D8277 /* KellerPhotoViewerGridCell.m in Sources */,
+				01DA831B1805EDF500AF932A /* NSArray+Kellar.m in Sources */,
 				0195753E1802EA68004D8277 /* KellerRotateGesture.m in Sources */,
 				019575421802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 			);

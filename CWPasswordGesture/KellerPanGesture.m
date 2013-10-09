@@ -56,7 +56,7 @@
   return [self isEqualToPanGesture:other];  
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return panGesture ^ numberOfTouches;
 }
 

@@ -56,7 +56,7 @@
   return YES;
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return longPressGesture ^ numberOfSeconds;
 }
 

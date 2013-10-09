@@ -71,7 +71,7 @@
   
   [passwordArray addObject:gesture];
   
-  NSLog(@"count of passwordArray: %d", [passwordArray count]);
+  NSLog(@"count of passwordArray: %lu", (unsigned long)[passwordArray count]);
   
   NSData *finalData = [NSKeyedArchiver archivedDataWithRootObject:passwordArray];
   

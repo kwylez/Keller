@@ -398,7 +398,7 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
     longPressGesture.longPressGesture = KellerUILongPressGesture;
     longPressGesture.numberOfSeconds  = self.numSeconds;
     
-    NSLog(@"number of seconds: %d", self.numSeconds);
+    NSLog(@"number of seconds: %lu", (unsigned long)self.numSeconds);
     
     [self saveGesture:longPressGesture confirming:[self isConfirming]];
     

@@ -199,8 +199,11 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
             NSMutableIndexSet *indices = [NSMutableIndexSet new];
             
             for (int i = 0; i <= INDICE_LIMIT; i++) {
-              
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
               NSUInteger r = arc4random_uniform(numberOfPhotos);
+#pragma clang diagnostic pop
               
               [indices addIndex:r];
             }

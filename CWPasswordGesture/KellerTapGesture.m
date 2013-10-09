@@ -48,7 +48,7 @@
   return YES;
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return tapGesture;
 }
 
