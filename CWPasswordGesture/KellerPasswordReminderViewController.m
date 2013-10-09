@@ -1,4 +1,4 @@
-    //
+//
 //  PasswordReminderViewController.m
 //  PasswordGestures
 //
@@ -14,10 +14,14 @@
 
 typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 
+static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
+
 @interface KellerPasswordReminderViewController()
 
 @property (nonatomic, strong) NSMutableArray *galleryImages;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
+@property (nonatomic, assign) BOOL allowSelection;
+@property (nonatomic, strong) NSMutableDictionary *reminderImages;
 
 - (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block;
 - (ALAssetsLibrary *)defaultAssetsLibrary;
@@ -25,6 +29,10 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 @end
 
 @implementation KellerPasswordReminderViewController
+
+- (void)dealloc {
+  [self removeObserver:self forKeyPath:REMINDER_IMAGES_KEYPATH context:NULL];
+}
 
 - (id)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
   
@@ -42,10 +50,17 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
     self.clearsSelectionOnViewWillAppear        = YES;
     self.collectionView.backgroundColor         = [UIColor whiteColor];
     self.collectionView.allowsMultipleSelection = YES;
-
+    
     self.title = NSLocalizedString(@"Reminder", nil);
     
-    _galleryImages = [NSMutableArray new];
+    _galleryImages  = [NSMutableArray new];
+    _allowSelection = YES;
+    _reminderImages = [NSMutableDictionary new];
+    
+    [self addObserver:self
+           forKeyPath:REMINDER_IMAGES_KEYPATH
+              options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+              context:NULL];
   }
   
   return self;
@@ -54,8 +69,7 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 - (void)viewDidLoad {
   
   [super viewDidLoad];
-  
-  [self.collectionView setPagingEnabled:YES];
+
   [self.collectionView registerClass:[KellarPhotoViewerGridCell class]
           forCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier];
 }
@@ -65,7 +79,7 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   [super viewWillAppear:animated];
   
   [self fetchRandomlySampleImagesFromGalleryWithCompletionBlock:^(NSArray *images){
-  
+    
     [self.loadingView stopAnimating];
     [self.loadingView removeFromSuperview];
     
@@ -83,6 +97,8 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   [super viewDidUnload];
 }
 
+#pragma mark - CollectionView Methods
+
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section; {
   return [self.galleryImages count];
 }
@@ -94,10 +110,48 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   
   ALAsset *asset     = (ALAsset *)[self galleryImages][indexPath.row];
   UIImage *thumbnail = [UIImage imageWithCGImage:[asset thumbnail]];
-
+  
   cell.imgView.image = thumbnail;
   
   return cell;
+}
+
+- (BOOL)collectionView:(UICollectionView *)view shouldSelectItemAtIndexPath:(NSIndexPath *)path {
+  
+  if ([self.reminderImages count] < 3) {
+
+    ALAsset *asset        = (ALAsset *)[self galleryImages][path.row];
+    UIImage *thumbnail    = [UIImage imageWithCGImage:[asset thumbnail]];
+    NSString *indexString = [NSString stringWithFormat:@"%ld", (long)path.row];
+
+    NSInteger reminderImageIndex = [[self.reminderImages allKeys] indexOfObject:indexString];
+    
+    if (reminderImageIndex == NSNotFound && self.allowSelection) {
+
+      [self willChangeValueForKey:REMINDER_IMAGES_KEYPATH];
+      [self.reminderImages setObject:thumbnail forKey:indexString];
+      [self didChangeValueForKey:REMINDER_IMAGES_KEYPATH];
+    }
+    
+    return self.allowSelection;
+  }
+
+  return NO;
+}
+
+- (BOOL)collectionView:(UICollectionView *)view shouldDeselectItemAtIndexPath:(NSIndexPath *)path {
+
+  NSString *indexString        = [NSString stringWithFormat:@"%ld", (long)path.row];
+  NSInteger reminderImageIndex = [[self.reminderImages allKeys] indexOfObject:indexString];
+  
+  if (reminderImageIndex != NSNotFound) {
+
+    [self willChangeValueForKey:REMINDER_IMAGES_KEYPATH];
+    [self.reminderImages removeObjectForKey:indexString];
+    [self didChangeValueForKey:REMINDER_IMAGES_KEYPATH];
+  }
+  
+  return self.allowSelection;
 }
 
 #pragma mark - Private Methods
@@ -105,7 +159,7 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 - (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block {
   
   /**
-   * Unfortunately without caching this takes a bit of time. Enough that we 
+   * Unfortunately without caching this takes a bit of time. Enough that we
    * need to notifiy the user.
    */
   
@@ -117,9 +171,9 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   [self.loadingView startAnimating];
   
   [self.view addSubview:self.loadingView];
-
+  
   ALAssetsLibrary *library = [self defaultAssetsLibrary];
-
+  
   dispatch_queue_t queue = dispatch_queue_create("com.kellar.imageiterator.queue", DISPATCH_QUEUE_SERIAL);
   
   dispatch_async(queue, ^{
@@ -141,25 +195,27 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
           NSIndexSet* (^randomImageIndexSet)(NSInteger numberOfPhotos) = ^ NSIndexSet*(NSInteger numberOfPhotos) {
             
             static NSInteger INDICE_LIMIT = 10;
-
+            
             NSMutableIndexSet *indices = [NSMutableIndexSet new];
             
             for (int i = 0; i <= INDICE_LIMIT; i++) {
-
+              
               NSUInteger r = arc4random_uniform(numberOfPhotos);
               
               [indices addIndex:r];
             }
-              
+            
             return indices;
           };
           
-          [group enumerateAssetsAtIndexes:randomImageIndexSet([group numberOfAssets]) options:NSEnumerationConcurrent usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
-          
-            if (asset) {
-              [self.galleryImages addObject:asset];
-            }
-          }];
+          [group enumerateAssetsAtIndexes:randomImageIndexSet([group numberOfAssets])
+                                  options:NSEnumerationConcurrent
+                               usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
+                                 
+                                 if (asset) {
+                                   [self.galleryImages addObject:asset];
+                                 }
+                               }];
           
           if (block) {
             block(self.galleryImages);
@@ -185,5 +241,33 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   
   return library;
 }
+
+#pragma mark KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  
+  if ([keyPath isEqual:REMINDER_IMAGES_KEYPATH]) {
+    
+    NSLog(@"observered: %@", self.reminderImages);
+    
+    if ([self.reminderImages.allKeys count] > 3) {
+
+      NSLog(@"count is GREATER than 3");
+      
+      self.allowSelection = NO;
+
+    } else {
+
+      NSLog(@"count is LESS than 3");
+      
+      self.allowSelection = YES;
+    }
+    
+  } else {
+    
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
+}
+
 
 @end
