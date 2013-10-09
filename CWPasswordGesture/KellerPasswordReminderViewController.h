@@ -11,7 +11,6 @@
 
 @interface KellerPasswordReminderViewController : UICollectionViewController
 
-@property (nonatomic, strong) UITableView *tblView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) NSMutableArray *imageAssets;
 
