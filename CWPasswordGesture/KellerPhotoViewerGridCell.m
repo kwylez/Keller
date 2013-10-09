@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Cory D. Wiles. All rights reserved.
 //
 
-#import "KellarPhotoViewerGridCell.h"
+#import "KellerPhotoViewerGridCell.h"
 
 NSString * const KellerPhotoViewerGridCellIdentifier = @"THUMBNAIL_CELL";
 
-@implementation KellarPhotoViewerGridCell
+@implementation KellerPhotoViewerGridCell
 
 - (id)initWithFrame:(CGRect)frame {
 

@@ -10,7 +10,7 @@
 
 #import "KellerPasswordReminderViewController.h"
 #import "KellerPhotoViewerGridFlowLayout.h"
-#import "KellarPhotoViewerGridCell.h"
+#import "KellerPhotoViewerGridCell.h"
 
 typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 
@@ -70,7 +70,7 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
   
   [super viewDidLoad];
 
-  [self.collectionView registerClass:[KellarPhotoViewerGridCell class]
+  [self.collectionView registerClass:[KellerPhotoViewerGridCell class]
           forCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier];
 }
 
@@ -105,7 +105,7 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath; {
   
-  KellarPhotoViewerGridCell *cell = [cv dequeueReusableCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier
+  KellerPhotoViewerGridCell *cell = [cv dequeueReusableCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier
                                                                   forIndexPath:indexPath];
   
   ALAsset *asset     = (ALAsset *)[self galleryImages][indexPath.row];

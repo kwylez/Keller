@@ -11,7 +11,7 @@
 
 extern NSString * const KellerPhotoViewerGridCellIdentifier;
 
-@interface KellarPhotoViewerGridCell : UICollectionViewCell
+@interface KellerPhotoViewerGridCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imgView;
 

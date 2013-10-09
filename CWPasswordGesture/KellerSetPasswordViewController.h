@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Kellar.h"
+#import "Keller.h"
 
 /**
  * @todo
