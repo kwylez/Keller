@@ -39,8 +39,9 @@ typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
   
   if (self) {
     
-    self.clearsSelectionOnViewWillAppear = YES;
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.clearsSelectionOnViewWillAppear        = YES;
+    self.collectionView.backgroundColor         = [UIColor whiteColor];
+    self.collectionView.allowsMultipleSelection = YES;
 
     self.title = NSLocalizedString(@"Reminder", nil);
     
