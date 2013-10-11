@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) NSMutableArray *imageAssets;
+@property (nonatomic, assign) BOOL reset;
 
 @end

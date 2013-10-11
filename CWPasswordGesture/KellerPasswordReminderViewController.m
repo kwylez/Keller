@@ -11,10 +11,14 @@
 #import "KellerPasswordReminderViewController.h"
 #import "KellerPhotoViewerGridFlowLayout.h"
 #import "KellerPhotoViewerGridCell.h"
+#import "KellerPasswordManager.h"
 
 typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
+typedef void(^KellerFetchAssetForUrlSuccessBlock)(ALAsset *asset);
+typedef void(^KellerFetchAssetForUrlErrorBlock)(NSError *);
 
-static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
+static NSString * const REMINDER_IMAGES_KEYPATH      = @"reminderImages";
+static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULTS_KEY";
 
 @interface KellerPasswordReminderViewController()
 
@@ -22,15 +26,27 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 @property (nonatomic, assign) BOOL allowSelection;
 @property (nonatomic, strong) NSMutableDictionary *reminderImages;
+@property (nonatomic, copy) NSDictionary *savedReminderImages;
 
 - (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block;
 - (ALAssetsLibrary *)defaultAssetsLibrary;
+- (void)cancel:(id)sender;
+- (void)save:(id)sender;
+- (void)reset:(id)sender;
+- (void)fetchAssetForUrl:(NSURL *)url
+                 success:(KellerFetchAssetForUrlSuccessBlock)successBlock
+                   error:(KellerFetchAssetForUrlErrorBlock)errorBlock;
 
 @end
 
 @implementation KellerPasswordReminderViewController
 
+@synthesize reset = _reset;
+
 - (void)dealloc {
+
+  NSLog(@"dealloc is called");
+  
   [self removeObserver:self forKeyPath:REMINDER_IMAGES_KEYPATH context:NULL];
 }
 
@@ -56,6 +72,7 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
     _galleryImages  = [NSMutableArray new];
     _allowSelection = YES;
     _reminderImages = [NSMutableDictionary new];
+    _reset          = NO;
     
     [self addObserver:self
            forKeyPath:REMINDER_IMAGES_KEYPATH
@@ -72,11 +89,30 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
 
   [self.collectionView registerClass:[KellerPhotoViewerGridCell class]
           forCellWithReuseIdentifier:KellerPhotoViewerGridCellIdentifier];
+  
+  UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                    target:self
+                                                                                    action:@selector(cancel:)];
+  self.navigationItem.leftBarButtonItem = cancelButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   
   [super viewWillAppear:animated];
+  
+  NSLog(@"isReset?: %@", @(self.reset));
+  
+  NSString *doneButtonTitle = self.reset ? @"Reset" : @"Save";
+  
+  SEL sel = self.reset ? @selector(reset:) : @selector(save:);
+  
+  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:doneButtonTitle
+                                                                     style:UIBarButtonItemStyleDone
+                                                                    target:self
+                                                                    action:sel];
+  
+  self.navigationItem.rightBarButtonItem         = doneButtonItem;
+  self.navigationItem.rightBarButtonItem.enabled = NO;
   
   [self fetchRandomlySampleImagesFromGalleryWithCompletionBlock:^(NSArray *images){
     
@@ -87,6 +123,13 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
       [self.collectionView reloadData];
     }
   }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+  [super viewWillDisappear:animated];
+  
+  NSLog(@"willDisappear");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -121,7 +164,6 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
   if ([self.reminderImages count] < 3) {
 
     ALAsset *asset        = (ALAsset *)[self galleryImages][path.row];
-    UIImage *thumbnail    = [UIImage imageWithCGImage:[asset thumbnail]];
     NSString *indexString = [NSString stringWithFormat:@"%ld", (long)path.row];
 
     NSInteger reminderImageIndex = [[self.reminderImages allKeys] indexOfObject:indexString];
@@ -129,7 +171,7 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
     if (reminderImageIndex == NSNotFound && self.allowSelection) {
 
       [self willChangeValueForKey:REMINDER_IMAGES_KEYPATH];
-      [self.reminderImages setObject:thumbnail forKey:indexString];
+      [self.reminderImages setObject:[asset valueForProperty:ALAssetPropertyAssetURL] forKey:indexString];
       [self didChangeValueForKey:REMINDER_IMAGES_KEYPATH];
     }
     
@@ -194,11 +236,11 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
           
           NSIndexSet* (^randomImageIndexSet)(NSInteger numberOfPhotos) = ^ NSIndexSet*(NSInteger numberOfPhotos) {
             
-            static NSInteger INDICE_LIMIT = 10;
+            NSInteger INDICE_LIMIT = self.reset ? 7 : 10;
             
             NSMutableIndexSet *indices = [NSMutableIndexSet new];
             
-            for (int i = 0; i <= INDICE_LIMIT; i++) {
+            for (int i = 0; i < INDICE_LIMIT; i++) {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wshorten-64-to-32"
@@ -212,13 +254,31 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
           };
           
           [group enumerateAssetsAtIndexes:randomImageIndexSet([group numberOfAssets])
-                                  options:NSEnumerationConcurrent
+                                  options:NSSortConcurrent
                                usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
                                  
                                  if (asset) {
                                    [self.galleryImages addObject:asset];
                                  }
+          }];
+          
+          NSData *data         = [[NSUserDefaults standardUserDefaults] objectForKey:REMINDER_IMAGES_DEFAULTS_KEY];
+
+          self.savedReminderImages = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+          if (self.reset) {
+
+            [self.savedReminderImages enumerateKeysAndObjectsUsingBlock:^(id key, NSURL *url, BOOL *stop){
+              
+              [self fetchAssetForUrl:url
+                             success:^(ALAsset *asset){
+                               [self.galleryImages addObject:asset];
+                             }
+                               error:^(NSError *error){
+                                 NSLog(@"failed getting asset: %@", error);
                                }];
+            }];
+          }
           
           if (block) {
             block(self.galleryImages);
@@ -245,6 +305,128 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
   return library;
 }
 
+- (void)cancel:(id)__unused sender {
+  
+  void (^completionBlock)(void) = ^{
+    NSLog(@"completion block as finished");
+  };
+  
+  [self dismissViewControllerAnimated:YES completion:completionBlock];
+}
+
+- (void)save:(id)__unused sender {
+
+  void (^completionBlock)(void) = ^{
+
+    NSLog(@"completion block as finished");
+
+    NSData *reminderImageData = [NSKeyedArchiver archivedDataWithRootObject:self.reminderImages];
+
+    [[NSUserDefaults standardUserDefaults] setObject:reminderImageData
+                                              forKey:REMINDER_IMAGES_DEFAULTS_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+  };
+  
+  [self dismissViewControllerAnimated:YES completion:completionBlock];
+}
+
+- (void)fetchAssetForUrl:(NSURL *)url
+                 success:(KellerFetchAssetForUrlSuccessBlock)successBlock
+                   error:(KellerFetchAssetForUrlErrorBlock)errorBlock {
+
+  ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset) {
+    
+    if (successBlock) {
+      successBlock(myasset);
+    }
+    
+    if (errorBlock) {
+      errorBlock(nil);
+    }
+  };
+
+  ALAssetsLibraryAccessFailureBlock failureblock = ^(NSError *error) {
+    
+    if (successBlock) {
+      successBlock(nil);
+    }
+    
+    if (errorBlock) {
+      errorBlock(error);
+    }
+  };
+  
+  if (url) {
+
+    ALAssetsLibrary *assetslibrary = [self defaultAssetsLibrary];
+
+    [assetslibrary assetForURL:url
+                   resultBlock:resultblock
+                  failureBlock:failureblock];
+    }
+}
+
+- (void)reset:(id)__unused sender {
+
+  NSLog(@"reset password");
+  
+  // compare images asset urls
+
+  NSMutableArray *intermediate = [NSMutableArray arrayWithArray:self.reminderImages.allValues];
+
+  [intermediate removeObjectsInArray:self.savedReminderImages.allValues];
+  
+  NSUInteger difference = [intermediate count];
+
+  if (difference > 0) {
+
+    NSLog(@"not the same");
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed", nil)
+                                                        message:NSLocalizedString(@"Reset Doesn't Match", nil)
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    
+    [alertView show];
+    
+  } else {
+    
+    NSLog(@"the same");
+    
+    
+    void (^completionBlock)(void) = ^{
+
+      NSLog(@"completion block as finished after resetting");
+      
+      self.savedReminderImages = nil;
+      self.reminderImages      = nil;
+      
+      __block NSString *message;
+      __block UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Reset", nil)
+                                                                  message:nil
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil, nil];
+      
+      [[KellerPasswordManager sharedManager] resetPasswordWithCompletionBlock:^(BOOL successful){
+      
+        if (successful) {
+          message = NSLocalizedString(@"Password has been reset", nil);
+        } else {
+          message = NSLocalizedString(@"Password failed to reset", nil);
+        }
+        
+        alertView.message = message;
+        
+        [alertView show];
+      }];
+    };
+    
+    [self dismissViewControllerAnimated:YES completion:completionBlock];
+  }
+}
+
 #pragma mark KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -252,18 +434,28 @@ static NSString * const REMINDER_IMAGES_KEYPATH = @"reminderImages";
   if ([keyPath isEqual:REMINDER_IMAGES_KEYPATH]) {
     
     NSLog(@"observered: %@", self.reminderImages);
-    
+
     if ([self.reminderImages.allKeys count] > 3) {
 
       NSLog(@"count is GREATER than 3");
+
+      /**
+       * This really isn't called
+       */
       
       self.allowSelection = NO;
 
     } else {
 
       NSLog(@"count is LESS than 3");
+
+      self.navigationItem.rightBarButtonItem.enabled = NO;
       
       self.allowSelection = YES;
+    }
+    
+    if ([self.reminderImages.allKeys count] == 3) {
+      self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     
   } else {
