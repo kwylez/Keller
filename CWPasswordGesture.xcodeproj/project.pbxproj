@@ -13,7 +13,6 @@
 		019574F91802E383004D8277 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 019574F71802E383004D8277 /* InfoPlist.strings */; };
 		019574FB1802E383004D8277 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 019574FA1802E383004D8277 /* main.m */; };
 		019574FF1802E383004D8277 /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 019574FE1802E383004D8277 /* CWAppDelegate.m */; };
-		019575081802E383004D8277 /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019575071802E383004D8277 /* CWViewController.m */; };
 		0195750A1802E383004D8277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 019575091802E383004D8277 /* Images.xcassets */; };
 		019575111802E383004D8277 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019575101802E383004D8277 /* XCTest.framework */; };
 		019575121802E383004D8277 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019574EE1802E383004D8277 /* Foundation.framework */; };
@@ -72,8 +71,6 @@
 		019574FC1802E383004D8277 /* CWPasswordGesture-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CWPasswordGesture-Prefix.pch"; sourceTree = "<group>"; };
 		019574FD1802E383004D8277 /* CWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWAppDelegate.h; sourceTree = "<group>"; };
 		019574FE1802E383004D8277 /* CWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWAppDelegate.m; sourceTree = "<group>"; };
-		019575061802E383004D8277 /* CWViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
-		019575071802E383004D8277 /* CWViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWViewController.m; sourceTree = "<group>"; };
 		019575091802E383004D8277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0195750F1802E383004D8277 /* CWPasswordGestureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CWPasswordGestureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		019575101802E383004D8277 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -173,8 +170,6 @@
 			children = (
 				019574FD1802E383004D8277 /* CWAppDelegate.h */,
 				019574FE1802E383004D8277 /* CWAppDelegate.m */,
-				019575061802E383004D8277 /* CWViewController.h */,
-				019575071802E383004D8277 /* CWViewController.m */,
 				019575091802E383004D8277 /* Images.xcassets */,
 				019575261802E9DA004D8277 /* Keller */,
 				019574F51802E383004D8277 /* Supporting Files */,
@@ -411,7 +406,6 @@
 				019575411802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 				019575291802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
 				0195753D1802EA68004D8277 /* KellerRotateGesture.m in Sources */,
-				019575081802E383004D8277 /* CWViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
