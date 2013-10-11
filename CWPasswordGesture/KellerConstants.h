@@ -34,4 +34,5 @@ extern NSString * const KellerTapGestureIsTapGestureKey;
 extern NSString * const KellerSwipeGestureIsSwipeGestureKey;
 extern NSString * const KellerLongPressGestureisLongPressGestureKey;
 extern NSString * const KellerLongPressGestureNumberOfSecondsKey;
+extern NSString * const KellerLoginKey;
 

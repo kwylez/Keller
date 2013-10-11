@@ -21,4 +21,5 @@ NSString * const KellerTapGestureIsTapGestureKey             = @"KellerTapGestur
 NSString * const KellerSwipeGestureIsSwipeGestureKey         = @"KellerSwipeGestureIsSwipeGestureKey";
 NSString * const KellerLongPressGestureisLongPressGestureKey = @"KellerLongPressGestureisLongPressGestureKey";
 NSString * const KellerLongPressGestureNumberOfSecondsKey    = @"KellerLongPressGestureNumberOfSecondsKey";
+NSString * const KellerLoginKey                              = @"KellerLoginKey";
 
