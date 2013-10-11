@@ -46,6 +46,8 @@
 		01957561180303FE004D8277 /* KellerPhotoViewerGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755D180303FE004D8277 /* KellerPhotoViewerGridCell.m */; };
 		01957562180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */; };
 		01957563180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */; };
+		01A47E2018086D33004D2489 /* CWProtectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01A47E1F18086D33004D2489 /* CWProtectedViewController.m */; };
+		01A47E2118086D33004D2489 /* CWProtectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01A47E1F18086D33004D2489 /* CWProtectedViewController.m */; };
 		01DA831A1805EDF500AF932A /* NSArray+Kellar.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA83191805EDF500AF932A /* NSArray+Kellar.m */; };
 		01DA831B1805EDF500AF932A /* NSArray+Kellar.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA83191805EDF500AF932A /* NSArray+Kellar.m */; };
 /* End PBXBuildFile section */
@@ -105,6 +107,8 @@
 		0195755D180303FE004D8277 /* KellerPhotoViewerGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPhotoViewerGridCell.m; sourceTree = "<group>"; };
 		0195755E180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KellerPhotoViewerGridFlowLayout.h; sourceTree = "<group>"; };
 		0195755F180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KellerPhotoViewerGridFlowLayout.m; sourceTree = "<group>"; };
+		01A47E1E18086D33004D2489 /* CWProtectedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWProtectedViewController.h; sourceTree = "<group>"; };
+		01A47E1F18086D33004D2489 /* CWProtectedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWProtectedViewController.m; sourceTree = "<group>"; };
 		01DA83181805EDF500AF932A /* NSArray+Kellar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Kellar.h"; sourceTree = "<group>"; };
 		01DA83191805EDF500AF932A /* NSArray+Kellar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Kellar.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +174,8 @@
 			children = (
 				019574FD1802E383004D8277 /* CWAppDelegate.h */,
 				019574FE1802E383004D8277 /* CWAppDelegate.m */,
+				01A47E1E18086D33004D2489 /* CWProtectedViewController.h */,
+				01A47E1F18086D33004D2489 /* CWProtectedViewController.m */,
 				019575091802E383004D8277 /* Images.xcassets */,
 				019575261802E9DA004D8277 /* Keller */,
 				019574F51802E383004D8277 /* Supporting Files */,
@@ -406,6 +412,7 @@
 				019575411802EA68004D8277 /* KellerSwipeGesture.m in Sources */,
 				019575291802EA1D004D8277 /* KellerPasswordManager.m in Sources */,
 				0195753D1802EA68004D8277 /* KellerRotateGesture.m in Sources */,
+				01A47E2018086D33004D2489 /* CWProtectedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +429,7 @@
 				01957563180303FE004D8277 /* KellerPhotoViewerGridFlowLayout.m in Sources */,
 				019575541802F85F004D8277 /* KellerViewController.m in Sources */,
 				0195753A1802EA68004D8277 /* KellerPanGesture.m in Sources */,
+				01A47E2118086D33004D2489 /* CWProtectedViewController.m in Sources */,
 				0195753C1802EA68004D8277 /* KellerTapGesture.m in Sources */,
 				019575401802EA68004D8277 /* KellerPinchGesture.m in Sources */,
 				01957561180303FE004D8277 /* KellerPhotoViewerGridCell.m in Sources */,
