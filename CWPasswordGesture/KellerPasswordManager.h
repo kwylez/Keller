@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KellerRotateGesture.h"
+
+typedef void(^KellerResetPasswordCompletionBlock)(BOOL successful);
 
 @protocol KellerPasswordGestureDelegate<NSObject>
 
 @required
 
-- (void)saveGestureDidSucceed;
-- (void)saveGestureDidFail;
+- (void)saveGestureDidSucceedWithGesture:(id)gesture;
+- (void)saveGestureDidFailWithGesture:(id)gesture;
 
 @end
 
@@ -30,5 +31,7 @@
 
 + (KellerPasswordManager *)sharedManager;
 - (void)saveGesture:(id)gesture;
+- (void)resetPasswordWithCompletionBlock:(KellerResetPasswordCompletionBlock)block;
+
 
 @end

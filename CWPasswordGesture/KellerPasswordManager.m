@@ -7,13 +7,13 @@
 //
 
 #import "KellerPasswordManager.h"
+#import "KellerConstants.h"
+#import "KellerSwipeGesture.h"
 
 @interface KellerPasswordManager()
 
- /**
-	* Private Methods
-	*/
-- (void)saveGestureToNSUserDefaults:(id)gesture;
+- (void)saveGestureToNSUserDefaults:(id)gesture reset:(BOOL)resetFlag withCompletionBlock:(KellerResetPasswordCompletionBlock)block;
+- (NSMutableArray *)currentPassword;
 
 @end
 
@@ -35,25 +35,39 @@
   
   _delegate = delegate;
   
-  _delegateFlags.delegateSaveGestureDidSucceed = [_delegate respondsToSelector:@selector(saveGestureDidSucceed)];
-  _delegateFlags.delegateSaveGestureDidFail    = [_delegate respondsToSelector:@selector(saveGestureDidFail)];
+  _delegateFlags.delegateSaveGestureDidSucceed = [_delegate respondsToSelector:@selector(saveGestureDidSucceedWithGesture:)];
+  _delegateFlags.delegateSaveGestureDidFail    = [_delegate respondsToSelector:@selector(saveGestureDidFailWithGesture:)];
 }
 
 #pragma mark - Public Methods
 
 - (void)saveGesture:(id)gesture {
-	[self saveGestureToNSUserDefaults:gesture];
+	[self saveGestureToNSUserDefaults:gesture reset:NO withCompletionBlock:nil];
+}
+
+- (void)resetPasswordWithCompletionBlock:(KellerResetPasswordCompletionBlock)block {
+
+  KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
+  
+  swipeGesture.swipeGesture = KellerUISwipeDownGesture;
+
+  [self saveGestureToNSUserDefaults:swipeGesture reset:YES withCompletionBlock:^(BOOL successful){
+  
+    if (block) {
+      block(successful);
+    }
+  }];
 }
 
 #pragma mark - Private Methods
 
-- (void)saveGestureToNSUserDefaults:(id)gesture {
-	
+- (NSMutableArray *)currentPassword {
+  
   NSUserDefaults *prefs       = [NSUserDefaults standardUserDefaults];
   NSData *passwordGestureData = [prefs objectForKey:KellerPasswordGestureKey];
   
   NSMutableArray *passwordArray;
-
+  
   if (passwordGestureData != nil) {
     
     NSArray *gestsArray = [NSKeyedUnarchiver unarchiveObjectWithData:passwordGestureData];
@@ -63,10 +77,22 @@
     }
     
     NSLog(@"notesData isn't nil");
-
+    
   } else {
-
+    
     passwordArray = [NSMutableArray new];
+  }
+  
+  return passwordArray;
+}
+
+- (void)saveGestureToNSUserDefaults:(id)gesture reset:(BOOL)resetFlag withCompletionBlock:(KellerResetPasswordCompletionBlock)block {
+
+  NSUserDefaults *prefs         = [NSUserDefaults standardUserDefaults];
+  NSMutableArray *passwordArray = [self currentPassword];
+  
+  if (resetFlag) {
+    [passwordArray removeAllObjects];
   }
   
   [passwordArray addObject:gesture];
@@ -80,13 +106,21 @@
   if ([prefs synchronize]) {
     
     if (_delegateFlags.delegateSaveGestureDidSucceed) {
-      [_delegate saveGestureDidSucceed];
+      [_delegate saveGestureDidSucceedWithGesture:gesture];
     }
-
+    
+    if (block) {
+      block(YES);
+    }
+    
   } else {
     
     if (_delegateFlags.delegateSaveGestureDidFail) {
-      [_delegate saveGestureDidFail];
+      [_delegate saveGestureDidFailWithGesture:gesture];
+    }
+    
+    if (block) {
+      block(NO);
     }
   }
 }
