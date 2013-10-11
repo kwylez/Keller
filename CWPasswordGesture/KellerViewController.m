@@ -1,95 +1,178 @@
 //
-//  PasswordGesturesViewController.m
-//  PasswordGestures
+//  CWViewController.m
+//  CWPasswordGesture
 //
-//  Created by Cory Wiles on 11/16/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Cory D. Wiles on 10/7/13.
+//  Copyright (c) 2013 Cory D. Wiles. All rights reserved.
 //
 
 #import "KellerViewController.h"
-#import "KellerConstants.h"
+
+#import "KellerPasswordReminderViewController.h"
+#import "KellerSetPasswordViewController.h"
+
+@interface KellerViewController()
+
+@property (nonatomic, strong) UIButton *reminderButton;
+@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, strong) UIButton *viewProtectedContentButton;
+@property (nonatomic, strong) UIButton *createPasswordButton;
+@property (nonatomic, strong) UIButton *resetButton;
+
+- (void)presentReminderController:(id)sender;
+- (void)presentCreatedPasswordController:(id)sender;
+- (void)presentResetController:(id)sender;
+- (void)addConstraintsForView;
+
+@end
 
 @implementation KellerViewController
 
+- (instancetype)init {
+  
+  self = [super init];
+  
+  if (self) {
+    
+    self.title = NSLocalizedString(@"Welcome to Keller", nil);
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+  }
+  
+  return self;
+}
+
 - (void)loadView {
-
-  UIView *mainView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-
-	mainView.backgroundColor = [UIColor blackColor];
-	
-	self.view = mainView;
+  
+  self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  
+  self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewDidLoad {
   
-	[super viewDidLoad];
+  [super viewDidLoad];
   
-  /**
-   * Iterate over NSUserDefaults
-   */
-
-  NSUserDefaults *prefs       = [NSUserDefaults standardUserDefaults];
-  NSData *passwordGestureData = [prefs objectForKey:KellerPasswordGestureKey];
+  self.reminderButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
   
-  if (passwordGestureData != nil) {
-    
-    NSArray *gestsArray = [NSKeyedUnarchiver unarchiveObjectWithData:passwordGestureData];
-    
-    if (gestsArray != nil) {
-      
-      for (id obj in gestsArray) {
-        NSLog(@"object in password: %@", obj);
-      }
-    }
-  }
+  self.reminderButton.translatesAutoresizingMaskIntoConstraints = NO;
   
-  /**
-   * End of debugging
-   */
+  [self.reminderButton setTitle:@"Reminder" forState:UIControlStateNormal];
   
-  UIButton *setPasswordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  self.reminderButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
-  setPasswordButton.frame = CGRectMake(20, 100, 200, 40);
-
-  [setPasswordButton setTitle:NSLocalizedString(@"Set Password", nil)
-                     forState:UIControlStateNormal];
-  [setPasswordButton addTarget:self action:@selector(presentSetPasswordViewController)
-              forControlEvents:UIControlEventTouchUpInside];
+  [self.reminderButton addTarget:self
+                          action:@selector(presentReminderController:)
+                forControlEvents:UIControlEventTouchUpInside];
   
-  [self.view addSubview:setPasswordButton];
+  [self.view addSubview:self.reminderButton];
   
-  UIButton *passReminderButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  self.loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
   
-  passReminderButton.frame = CGRectMake(20, 150, 200, 40);
+  self.loginButton.translatesAutoresizingMaskIntoConstraints = NO;
   
-  [passReminderButton setTitle:NSLocalizedString(@"Password Reminder", nil)
-                      forState:UIControlStateNormal];
-  [passReminderButton addTarget:self
-                         action:@selector(presentReminderPasswordViewController)
-               forControlEvents:UIControlEventTouchUpInside];
+  [self.loginButton setTitle:@"Login" forState:UIControlStateNormal];
   
-  [self.view addSubview:passReminderButton];
+  self.loginButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+  
+  [self.loginButton addTarget:self
+                       action:@selector(presentReminderController:)
+             forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.view addSubview:self.loginButton];
+  
+  self.viewProtectedContentButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  
+  self.viewProtectedContentButton.translatesAutoresizingMaskIntoConstraints = NO;
+  
+  [self.viewProtectedContentButton setTitle:@"Protected" forState:UIControlStateNormal];
+  
+  self.viewProtectedContentButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+  
+  [self.viewProtectedContentButton addTarget:self
+                                      action:@selector(presentReminderController:)
+                            forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.view addSubview:self.viewProtectedContentButton];
+  
+  self.createPasswordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  
+  self.createPasswordButton.translatesAutoresizingMaskIntoConstraints = NO;
+  
+  [self.createPasswordButton setTitle:@"Create" forState:UIControlStateNormal];
+  
+  self.createPasswordButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+  
+  [self.createPasswordButton addTarget:self
+                                action:@selector(presentCreatedPasswordController:)
+                      forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.view addSubview:self.createPasswordButton];
+  
+  self.resetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  
+  self.resetButton.translatesAutoresizingMaskIntoConstraints = NO;
+  
+  [self.resetButton setTitle:@"Reset" forState:UIControlStateNormal];
+  
+  self.resetButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+  
+  [self.resetButton addTarget:self
+                       action:@selector(presentResetController:)
+             forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.view addSubview:self.resetButton];
+  
+  [self addConstraintsForView];
 }
 
-#pragma mark -
-#pragma mark Custom Methods
+#pragma mark - Private Methods
 
-- (void)presentSetPasswordViewController {
+- (void)presentReminderController:(id)__unused sender {
   
-  KellerSetPasswordViewController *setPass = [[KellerSetPasswordViewController alloc] init];
+  KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
   
-  setPass.title = @"Set Password";
+  reminder.reset = NO;
   
-  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:setPass];
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
   
   [self presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)presentReminderPasswordViewController {
+- (void)presentResetController:(id)__unused sender {
   
-  KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] init];
+  KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
   
-  [self presentViewController:reminder animated:YES completion:nil];
+  reminder.reset = YES;
+  
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
+  
+  [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)presentCreatedPasswordController:(id)__unused sender {
+  
+  KellerSetPasswordViewController *password = [[KellerSetPasswordViewController alloc] init];
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:password];
+  
+  [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)addConstraintsForView {
+  
+  NSDictionary *userViewDictionary = NSDictionaryOfVariableBindings(_reminderButton, _loginButton, _viewProtectedContentButton, _createPasswordButton, _resetButton);
+  NSArray *userViewConstraints     = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_createPasswordButton]-[_reminderButton(==_createPasswordButton)]-[_loginButton(==_reminderButton)]-[_viewProtectedContentButton(==_loginButton)]-[_resetButton(==_viewProtectedContentButton)]-|"
+                                                                             options:NSLayoutFormatAlignAllCenterX
+                                                                             metrics:nil
+                                                                               views:userViewDictionary];
+  
+  [self.view addConstraints:userViewConstraints];
+  
+  userViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_createPasswordButton]-|"
+                                                                options:NSLayoutFormatAlignAllCenterY
+                                                                metrics:nil
+                                                                  views:userViewDictionary];
+  [self.view addConstraints:userViewConstraints];
 }
 
 @end
