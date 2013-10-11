@@ -82,11 +82,11 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 	
 	[super viewDidLoad];
   
-  UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+  UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                     target:self action:@selector(cancelSettingPassword)];
   self.navigationItem.leftBarButtonItem = cancelButtonItem;
   
-  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" 
+  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" 
                                                                      style:UIBarButtonItemStyleDone 
                                                                     target:self 
                                                                     action:@selector(confirmingPasswordAction)];
@@ -588,11 +588,11 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 
 #pragma mark - PasswordGestureDelegate Methods
 
-- (void)saveGestureDidSucceed {
+- (void)saveGestureDidSucceedWithGesture:(id)gesture {
   NSLog(@"did save successfully");
 }
 
-- (void)saveGestureDidFail {
+- (void)saveGestureDidFailWithGesture:(id)gesture {
   NSLog(@"did not save successfully");
 }
 
