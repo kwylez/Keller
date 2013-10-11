@@ -14,6 +14,19 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 
 @property (nonatomic, strong) NSMutableArray *previousLocations;
 
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) NSUInteger numSeconds;
+@property (nonatomic, getter = isConfirming, readonly) BOOL confirming;
+@property (nonatomic, strong) NSMutableArray *confirmPasswordArray;
+@property (nonatomic, strong) NSMutableArray *passwordGestures;
+@property (nonatomic, strong) KellerPasswordManager *passwordManager;
+
+- (void)finishedSettingPassword;
+- (void)confirmingPasswordAction;
+- (void)cancelSettingPassword;
+- (void)saveGesture:(id)gesture confirming:(BOOL)confirming;
+- (void)login:(id)sender;
+
 - (void)handleRotationGesture:(UIRotationGestureRecognizer *)gesture;
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)gesture;
 - (void)handleTapGesture:(UITapGestureRecognizer *)gesture;
@@ -31,6 +44,7 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 @implementation KellerSetPasswordViewController
 
 @synthesize confirming = _confirming;
+@synthesize login      = _login;
 
 - (void)dealloc {
 
@@ -54,6 +68,7 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
     _previousLocations    = [NSMutableArray new];
     _confirmPasswordArray = [NSMutableArray new];
     _passwordGestures     = [NSMutableArray new];
+    _login                = NO;
   }
   
   return self;
@@ -63,7 +78,7 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
   
   UIView *mainView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
   
-	mainView.backgroundColor = [UIColor blackColor];
+	mainView.backgroundColor = [UIColor whiteColor];
 	
 	self.view = mainView;
 
@@ -86,10 +101,13 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
                                                                                     target:self action:@selector(cancelSettingPassword)];
   self.navigationItem.leftBarButtonItem = cancelButtonItem;
   
-  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" 
+  NSString *doneString = [self isLogin] ? @"Login" : @"Save";
+  SEL sel = [self isLogin] ? @selector(login:) : @selector(confirmingPasswordAction);
+
+  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:doneString
                                                                      style:UIBarButtonItemStyleDone 
                                                                     target:self 
-                                                                    action:@selector(confirmingPasswordAction)];
+                                                                    action:sel];
   
   self.navigationItem.rightBarButtonItem         = doneButtonItem;
   self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -232,6 +250,10 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 
 - (BOOL)isConfirming {
   return _confirming;
+}
+
+- (BOOL)isLogin {
+  return _login;
 }
 
 #pragma mark - Delegate Methods
@@ -414,6 +436,27 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
                                                 userInfo:nil
                                                  repeats:YES];
 	}
+}
+
+- (void)login:(id)__unused sender {
+  
+  [[KellerPasswordManager sharedManager] loginWithGestures:self.passwordGestures completionBlock:^(BOOL successful){
+  
+    NSString *message = successful ? NSLocalizedString(@"Successful", nil) : NSLocalizedString(@"Failed", nil);
+    
+    void(^completionBlock)(void) = ^{
+    
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login", nil)
+                                                          message:message
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil, nil];
+      
+      [alertView show];
+    };
+    
+    [self dismissViewControllerAnimated:YES completion:completionBlock];
+  }];
 }
 
 #pragma mark - Private Methods
