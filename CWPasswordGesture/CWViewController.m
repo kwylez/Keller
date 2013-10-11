@@ -55,7 +55,7 @@
 
   self.reminderButton.translatesAutoresizingMaskIntoConstraints = NO;
   
-  [self.reminderButton setTitle:@"Remind me" forState:UIControlStateNormal];
+  [self.reminderButton setTitle:@"Reset" forState:UIControlStateNormal];
   
   self.reminderButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
 
@@ -97,7 +97,7 @@ forControlEvents:UIControlEventTouchUpInside];
   
   self.createPasswordButton.translatesAutoresizingMaskIntoConstraints = NO;
   
-  [self.createPasswordButton setTitle:@"Create Pass" forState:UIControlStateNormal];
+  [self.createPasswordButton setTitle:@"Create" forState:UIControlStateNormal];
   
   self.createPasswordButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
@@ -113,8 +113,11 @@ forControlEvents:UIControlEventTouchUpInside];
 #pragma mark - Private Methods
 
 - (void)presentReminderController:(id)__unused sender {
-  
+
   KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
+  
+  reminder.reset = YES;
+  
   UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
   
   [self presentViewController:navController animated:YES completion:nil];
@@ -131,15 +134,15 @@ forControlEvents:UIControlEventTouchUpInside];
 - (void)addConstraintsForView {
 
   NSDictionary *userViewDictionary = NSDictionaryOfVariableBindings(_reminderButton, _loginButton, _viewProtectedContentButton, _createPasswordButton);
-  NSArray *userViewConstraints     = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_reminderButton]-[_loginButton(==_reminderButton)]-[_viewProtectedContentButton(==_reminderButton)]-[_createPasswordButton(==_reminderButton)]-|"
-                                                                             options:NSLayoutFormatAlignAllCenterY
+  NSArray *userViewConstraints     = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_createPasswordButton]-[_loginButton(==_createPasswordButton)]-[_viewProtectedContentButton(==_loginButton)]-[_reminderButton(==_loginButton)]-|"
+                                                                             options:NSLayoutFormatAlignAllCenterX
                                                                              metrics:nil
                                                                                views:userViewDictionary];
   
   [self.view addConstraints:userViewConstraints];
   
-  userViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_reminderButton]"
-                                                                options:NSLayoutFormatAlignAllCenterX
+  userViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_createPasswordButton]-|"
+                                                                options:NSLayoutFormatAlignAllCenterY
                                                                 metrics:nil
                                                                   views:userViewDictionary];
   [self.view addConstraints:userViewConstraints];
