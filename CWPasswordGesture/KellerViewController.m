@@ -10,6 +10,7 @@
 
 #import "KellerPasswordReminderViewController.h"
 #import "KellerSetPasswordViewController.h"
+#import "CWProtectedViewController.h"
 
 @interface KellerViewController()
 
@@ -22,6 +23,9 @@
 - (void)presentReminderController:(id)sender;
 - (void)presentCreatedPasswordController:(id)sender;
 - (void)presentResetController:(id)sender;
+- (void)presentLoginController:(id)sender;
+- (void)presentProtectedController:(id)sender;
+- (void)logout:(id)sender;
 - (void)addConstraintsForView;
 
 @end
@@ -76,7 +80,7 @@
   self.loginButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
   [self.loginButton addTarget:self
-                       action:@selector(presentReminderController:)
+                       action:@selector(presentLoginController:)
              forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.loginButton];
@@ -90,7 +94,7 @@
   self.viewProtectedContentButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
   
   [self.viewProtectedContentButton addTarget:self
-                                      action:@selector(presentReminderController:)
+                                      action:@selector(presentProtectedController:)
                             forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.viewProtectedContentButton];
@@ -126,6 +130,25 @@
   [self addConstraintsForView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  
+  [super viewWillAppear:animated];
+  
+  
+  
+  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout"
+                                                                     style:UIBarButtonItemStyleDone
+                                                                    target:self
+                                                                    action:@selector(logout:)];
+  
+  self.navigationItem.rightBarButtonItem         = doneButtonItem;
+  self.navigationItem.rightBarButtonItem.enabled = NO;
+
+  if ([KellerPasswordManager isLoggedIn]) {
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+  }
+}
+
 #pragma mark - Private Methods
 
 - (void)presentReminderController:(id)__unused sender {
@@ -156,6 +179,55 @@
   UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:password];
   
   [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)presentLoginController:(id)__unused sender {
+
+  KellerSetPasswordViewController *password = [[KellerSetPasswordViewController alloc] init];
+  
+  password.login = YES;
+  
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:password];
+  
+  [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)presentProtectedController:(id)__unused sender {
+
+  if ([KellerPasswordManager isLoggedIn]) {
+    
+    CWProtectedViewController *protected = [[CWProtectedViewController alloc] init];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:protected];
+    
+    [self presentViewController:navController animated:YES completion:nil];
+    
+  } else {
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Protected", nil)
+                                                        message:NSLocalizedString(@"You aren't logged in", nil)
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    
+    [alertView show];
+  }
+}
+
+- (void)logout:(id)__unused sender {
+  
+  [[KellerPasswordManager sharedManager] logoutWithCompletionBlock:^(BOOL successful){
+  
+    NSString *message = successful ? NSLocalizedString(@"Successful", nil) : NSLocalizedString(@"Failed", nil);
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Logout", nil)
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    
+    [alertView show];
+  }];
 }
 
 - (void)addConstraintsForView {
