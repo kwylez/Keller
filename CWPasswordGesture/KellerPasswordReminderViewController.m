@@ -261,12 +261,12 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
                                    [self.galleryImages addObject:asset];
                                  }
           }];
-          
-          NSData *data         = [[NSUserDefaults standardUserDefaults] objectForKey:REMINDER_IMAGES_DEFAULTS_KEY];
-
-          self.savedReminderImages = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
           if (self.reset) {
+            
+            NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:REMINDER_IMAGES_DEFAULTS_KEY];
+            
+            self.savedReminderImages = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
             [self.savedReminderImages enumerateKeysAndObjectsUsingBlock:^(id key, NSURL *url, BOOL *stop){
               
@@ -324,7 +324,27 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
 
     [[NSUserDefaults standardUserDefaults] setObject:reminderImageData
                                               forKey:REMINDER_IMAGES_DEFAULTS_KEY];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if ([[NSUserDefaults standardUserDefaults] synchronize]) {
+     
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password Reminder", nil)
+                                                          message:NSLocalizedString(@"Successful", nil)
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil, nil];
+      
+      [alertView show];
+
+    } else {
+
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password Reminder", nil)
+                                                          message:NSLocalizedString(@"Failed", nil)
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil, nil];
+      
+      [alertView show];
+    }
   };
   
   [self dismissViewControllerAnimated:YES completion:completionBlock];
@@ -393,7 +413,6 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
   } else {
     
     NSLog(@"the same");
-    
     
     void (^completionBlock)(void) = ^{
 

@@ -469,6 +469,17 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
       [self.passwordManager saveGesture:gesture];
     }
 
+    [self dismissViewControllerAnimated:YES completion:^{
+    
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
+                                                          message:NSLocalizedString(@"Successfully Saved", nil)
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil, nil];
+      
+      [alertView show];
+    }];
+    
   } else {
 
     _confirming = NO;

@@ -17,9 +17,11 @@
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIButton *viewProtectedContentButton;
 @property (nonatomic, strong) UIButton *createPasswordButton;
+@property (nonatomic, strong) UIButton *resetButton;
 
 - (void)presentReminderController:(id)sender;
 - (void)presentCreatedPasswordController:(id)sender;
+- (void)presentResetController:(id)sender;
 - (void)addConstraintsForView;
 
 @end
@@ -55,7 +57,7 @@
 
   self.reminderButton.translatesAutoresizingMaskIntoConstraints = NO;
   
-  [self.reminderButton setTitle:@"Reset" forState:UIControlStateNormal];
+  [self.reminderButton setTitle:@"Reminder" forState:UIControlStateNormal];
   
   self.reminderButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
 
@@ -107,6 +109,20 @@ forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.createPasswordButton];
   
+  self.resetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  
+  self.resetButton.translatesAutoresizingMaskIntoConstraints = NO;
+  
+  [self.resetButton setTitle:@"Reset" forState:UIControlStateNormal];
+  
+  self.resetButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+  
+  [self.resetButton addTarget:self
+                       action:@selector(presentResetController:)
+             forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.view addSubview:self.resetButton];
+  
   [self addConstraintsForView];
 }
 
@@ -114,6 +130,17 @@ forControlEvents:UIControlEventTouchUpInside];
 
 - (void)presentReminderController:(id)__unused sender {
 
+  KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
+  
+  reminder.reset = NO;
+  
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
+  
+  [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)presentResetController:(id)__unused sender {
+  
   KellerPasswordReminderViewController *reminder = [[KellerPasswordReminderViewController alloc] initWithCollectionViewLayout:nil];
   
   reminder.reset = YES;
@@ -133,8 +160,8 @@ forControlEvents:UIControlEventTouchUpInside];
 
 - (void)addConstraintsForView {
 
-  NSDictionary *userViewDictionary = NSDictionaryOfVariableBindings(_reminderButton, _loginButton, _viewProtectedContentButton, _createPasswordButton);
-  NSArray *userViewConstraints     = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_createPasswordButton]-[_loginButton(==_createPasswordButton)]-[_viewProtectedContentButton(==_loginButton)]-[_reminderButton(==_loginButton)]-|"
+  NSDictionary *userViewDictionary = NSDictionaryOfVariableBindings(_reminderButton, _loginButton, _viewProtectedContentButton, _createPasswordButton, _resetButton);
+  NSArray *userViewConstraints     = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_createPasswordButton]-[_reminderButton(==_createPasswordButton)]-[_loginButton(==_reminderButton)]-[_viewProtectedContentButton(==_loginButton)]-[_resetButton(==_viewProtectedContentButton)]-|"
                                                                              options:NSLayoutFormatAlignAllCenterX
                                                                              metrics:nil
                                                                                views:userViewDictionary];
