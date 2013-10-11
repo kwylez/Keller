@@ -7,12 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KellerSetPasswordViewController.h"
-#import "KellerPasswordReminderViewController.h"
 
 @interface KellerViewController : UIViewController
 
-- (void)presentSetPasswordViewController;
-- (void)presentReminderPasswordViewController;
 
 @end
