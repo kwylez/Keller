@@ -12,7 +12,7 @@
 
 @interface KellerPasswordManager()
 
-- (void)saveGestureToNSUserDefaults:(id)gesture reset:(BOOL)resetFlag withCompletionBlock:(KellerResetPasswordCompletionBlock)block;
+- (void)saveGestureToNSUserDefaults:(id)gesture reset:(BOOL)resetFlag withCompletionBlock:(KellerBoolCompletionBlock)block;
 - (NSMutableArray *)currentPassword;
 
 @end
@@ -45,7 +45,7 @@
 	[self saveGestureToNSUserDefaults:gesture reset:NO withCompletionBlock:nil];
 }
 
-- (void)resetPasswordWithCompletionBlock:(KellerResetPasswordCompletionBlock)block {
+- (void)resetPasswordWithCompletionBlock:(KellerBoolCompletionBlock)block {
 
   KellerSwipeGesture *swipeGesture = [[KellerSwipeGesture alloc] init];
   
@@ -57,6 +57,65 @@
       block(successful);
     }
   }];
+}
+
+- (void)loginWithGestures:(NSArray *)gestures completionBlock:(KellerBoolCompletionBlock)block {
+  
+  NSMutableArray *current = [self currentPassword];
+  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+  
+  if ([current isEqualToArray:gestures]) {
+    
+    [prefs setBool:YES forKey:KellerLoginKey];
+    
+    [prefs synchronize];
+    
+    if (block) {
+      
+      block(YES);
+    }
+
+  } else {
+
+    [prefs setBool:NO forKey:KellerLoginKey];
+    
+    [prefs synchronize];
+    
+    if (block) {
+      block(NO);
+    }
+  }
+}
+
+- (void)logoutWithCompletionBlock:(KellerBoolCompletionBlock)block {
+  
+  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+  
+  [prefs setBool:NO forKey:KellerLoginKey];
+  
+  if ([prefs synchronize]) {
+    
+    if (block) {
+      block(YES);
+    }
+
+  } else {
+    
+    if (block) {
+      block(NO);
+    }
+  }
+}
+
++ (BOOL)isLoggedIn {
+  
+  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+  
+  BOOL loggedIn = [prefs boolForKey:KellerLoginKey];
+
+  NSLog(@"loggedIn: %@", @(loggedIn));
+  
+  return loggedIn;
 }
 
 #pragma mark - Private Methods
@@ -86,7 +145,7 @@
   return passwordArray;
 }
 
-- (void)saveGestureToNSUserDefaults:(id)gesture reset:(BOOL)resetFlag withCompletionBlock:(KellerResetPasswordCompletionBlock)block {
+- (void)saveGestureToNSUserDefaults:(id)gesture reset:(BOOL)resetFlag withCompletionBlock:(KellerBoolCompletionBlock)block {
 
   NSUserDefaults *prefs         = [NSUserDefaults standardUserDefaults];
   NSMutableArray *passwordArray = [self currentPassword];

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^KellerResetPasswordCompletionBlock)(BOOL successful);
+typedef void(^KellerBoolCompletionBlock)(BOOL successful);
 
 @protocol KellerPasswordGestureDelegate<NSObject>
 
@@ -31,7 +31,9 @@ typedef void(^KellerResetPasswordCompletionBlock)(BOOL successful);
 
 + (KellerPasswordManager *)sharedManager;
 - (void)saveGesture:(id)gesture;
-- (void)resetPasswordWithCompletionBlock:(KellerResetPasswordCompletionBlock)block;
-
+- (void)resetPasswordWithCompletionBlock:(KellerBoolCompletionBlock)block;
+- (void)loginWithGestures:(NSArray *)gestures completionBlock:(KellerBoolCompletionBlock)block;
+- (void)logoutWithCompletionBlock:(KellerBoolCompletionBlock)block;
++ (BOOL)isLoggedIn;
 
 @end
