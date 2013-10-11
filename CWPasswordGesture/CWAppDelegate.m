@@ -7,7 +7,7 @@
 //
 
 #import "CWAppDelegate.h"
-#import "CWViewController.h"
+#import "KellerViewController.h"
 
 @implementation CWAppDelegate
 
@@ -15,7 +15,7 @@
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
-  CWViewController *mainViewController = [[CWViewController alloc] init];
+  KellerViewController *mainViewController = [[KellerViewController alloc] init];
   
   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
   
