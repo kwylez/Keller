@@ -19,16 +19,6 @@
 
 @interface KellerSetPasswordViewController : UIViewController <UIGestureRecognizerDelegate, KellerPasswordGestureDelegate>
 
-@property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic, assign) NSUInteger numSeconds;
-@property (nonatomic, getter = isConfirming, readonly) BOOL confirming;
-@property (nonatomic, strong) NSMutableArray *confirmPasswordArray;
-@property (nonatomic, strong) NSMutableArray *passwordGestures;
-@property (nonatomic, strong) KellerPasswordManager *passwordManager;
-
-- (void)finishedSettingPassword;
-- (void)confirmingPasswordAction;
-- (void)cancelSettingPassword;
-- (void)saveGesture:(id)gesture confirming:(BOOL)confirming;
+@property (nonatomic, assign, getter = isLogin) BOOL login;
 
 @end
