@@ -10,6 +10,8 @@
 
 @interface CWProtectedViewController ()
 
+- (void)done:(id)sender;
+
 @end
 
 @implementation CWProtectedViewController
@@ -32,10 +34,13 @@
   self.view.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+- (void)viewDidLoad {
+  
+  [super viewDidLoad];
+  
+  UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                    target:self action:@selector(done:)];
+  self.navigationItem.leftBarButtonItem = doneButtonItem;
   
   UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){10, 10, 200, 200}];
   
@@ -44,10 +49,10 @@
   [self.view addSubview:label];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Private Methods
+
+- (void)done:(id)__unused sender {
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
