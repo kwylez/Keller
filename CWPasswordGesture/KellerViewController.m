@@ -218,6 +218,12 @@
   
   [[KellerPasswordManager sharedManager] logoutWithCompletionBlock:^(BOOL successful){
   
+    NSLog(@"logout successful? %@", @(successful));
+    
+    if (successful) {
+       self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
+    
     NSString *message = successful ? NSLocalizedString(@"Successful", nil) : NSLocalizedString(@"Failed", nil);
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Logout", nil)
