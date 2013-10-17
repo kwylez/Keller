@@ -17,7 +17,7 @@
  * Also need to research how to handle if a call comes in or the app enters the background
  */
 
-@interface KellerSetPasswordViewController : UIViewController <UIGestureRecognizerDelegate, KellerPasswordGestureDelegate>
+@interface KellerSetPasswordViewController : UIViewController
 
 @property (nonatomic, assign, getter = isLogin) BOOL login;
 

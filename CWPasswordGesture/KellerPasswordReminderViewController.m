@@ -13,12 +13,12 @@
 #import "KellerPhotoViewerGridCell.h"
 #import "KellerPasswordManager.h"
 
-typedef void(^KellerFetchSampleImagesCompletionBlock)(NSArray *images);
 typedef void(^KellerFetchAssetForUrlSuccessBlock)(ALAsset *asset);
 typedef void(^KellerFetchAssetForUrlErrorBlock)(NSError *);
 
 static NSString * const REMINDER_IMAGES_KEYPATH      = @"reminderImages";
 static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULTS_KEY";
+static NSString * const DEMO_ALBUM_NAME              = @"Keller";
 
 @interface KellerPasswordReminderViewController()
 
@@ -28,7 +28,6 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
 @property (nonatomic, strong) NSMutableDictionary *reminderImages;
 @property (nonatomic, copy) NSDictionary *savedReminderImages;
 
-- (void)fetchRandomlySampleImagesFromGalleryWithCompletionBlock:(KellerFetchSampleImagesCompletionBlock)block;
 - (ALAssetsLibrary *)defaultAssetsLibrary;
 - (void)cancel:(id)sender;
 - (void)save:(id)sender;
@@ -102,7 +101,7 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
   
   NSLog(@"isReset?: %@", @(self.reset));
   
-  NSString *doneButtonTitle = self.reset ? @"Reset" : @"Save";
+  NSString *doneButtonTitle = self.reset ? NSLocalizedString(@"Reset", nil) : NSLocalizedString(@"Save", nil);
   
   SEL sel = self.reset ? @selector(reset:) : @selector(save:);
   
@@ -113,16 +112,6 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
   
   self.navigationItem.rightBarButtonItem         = doneButtonItem;
   self.navigationItem.rightBarButtonItem.enabled = NO;
-  
-  [self fetchRandomlySampleImagesFromGalleryWithCompletionBlock:^(NSArray *images){
-    
-    [self.loadingView stopAnimating];
-    [self.loadingView removeFromSuperview];
-    
-    if ([images count]) {
-      [self.collectionView reloadData];
-    }
-  }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -220,19 +209,18 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
   
   dispatch_async(queue, ^{
     
-    [library enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+    [library enumerateGroupsWithTypes:ALAssetsGroupAlbum usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
       
       if (group) {
         
-        if ([group valueForProperty:ALAssetsGroupPropertyName]) {
+        /**
+         * Would LOVE it assset library was treated as NSArray or NSSet so I could 
+         * take advantage of the standard manipulation methods and searching.
+         */
+
+        if ([[group valueForProperty:ALAssetsGroupPropertyName] isEqualToString:DEMO_ALBUM_NAME]) {
           
           NSLog(@"album: %@", [group valueForProperty:ALAssetsGroupPropertyName]);
-          
-          /**
-           * Need to get 10 random indices from array.
-           * @todo
-           * Find a better way to do this.
-           */
           
           NSIndexSet* (^randomImageIndexSet)(NSInteger numberOfPhotos) = ^ NSIndexSet*(NSInteger numberOfPhotos) {
             
@@ -281,7 +269,14 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
           }
           
           if (block) {
-            block(self.galleryImages);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+            
+              [self.loadingView stopAnimating];
+              [self.loadingView removeFromSuperview];
+              
+              block(self.galleryImages);
+            });
           }
         }
       }
@@ -292,6 +287,12 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
     }];
   });
 }
+
+/**
+ * IMPORTANT
+ * Asset library access is "session" based. One instance can't access images
+ * associated with another.
+ */
 
 - (ALAssetsLibrary *)defaultAssetsLibrary {
   
@@ -482,6 +483,5 @@ static NSString * const REMINDER_IMAGES_DEFAULTS_KEY = @"REMINDER_IMAGES_DEFAULT
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
 }
-
 
 @end

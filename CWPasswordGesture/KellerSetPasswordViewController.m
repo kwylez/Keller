@@ -10,7 +10,7 @@
 
 static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 
-@interface KellerSetPasswordViewController()
+@interface KellerSetPasswordViewController()<UIGestureRecognizerDelegate, KellerPasswordGestureDelegate>
 
 @property (nonatomic, strong) NSMutableArray *previousLocations;
 
@@ -82,6 +82,11 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 	
 	self.view = mainView;
 
+  /**
+   * You must enable multi touch so that proper objects are avaialble in the 
+   * touches* methods.
+   */
+
   self.view.multipleTouchEnabled = YES;
 }
 
@@ -101,7 +106,8 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
                                                                                     target:self action:@selector(cancelSettingPassword)];
   self.navigationItem.leftBarButtonItem = cancelButtonItem;
   
-  NSString *doneString = [self isLogin] ? @"Login" : @"Save";
+  NSString *doneString = [self isLogin] ? NSLocalizedString(@"Login", nil) : NSLocalizedString(@"Save", nil);
+
   SEL sel = [self isLogin] ? @selector(login:) : @selector(confirmingPasswordAction);
 
   UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:doneString
@@ -517,7 +523,7 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
       UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
                                                           message:NSLocalizedString(@"Successfully Saved", nil)
                                                          delegate:nil
-                                                cancelButtonTitle:@"OK"
+                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                 otherButtonTitles:nil, nil];
       
       [alertView show];
@@ -530,7 +536,7 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
     [self.passwordGestures removeAllObjects];
     [self.confirmPasswordArray removeAllObjects];
     
-    UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Confirm" 
+    UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Confirm", nil)
                                                                        style:UIBarButtonItemStyleDone 
                                                                       target:self 
                                                                       action:@selector(confirmingPasswordAction)];
@@ -635,8 +641,9 @@ static CGSize const pointSize = (CGSize){44.0f, 44.0f};
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+
   CGPoint touchLocation = [[touches anyObject] locationInView:self.view];
-  
+
   NSLog(@"touchesCancelled: %@", NSStringFromCGPoint(touchLocation));
 }
 

@@ -159,7 +159,15 @@
   
   UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:reminder];
   
-  [self presentViewController:navController animated:YES completion:nil];
+  [self presentViewController:navController animated:YES completion:^{
+  
+    [reminder fetchRandomlySampleImagesFromGalleryWithCompletionBlock:^(NSArray *images){
+
+      if ([images count]) {
+        [reminder.collectionView reloadData];
+      }
+    }];
+  }];
 }
 
 - (void)presentResetController:(id)__unused sender {
